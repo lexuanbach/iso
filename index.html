@@ -787,50 +787,120 @@
     <div class="subgroup-title">Non-repudiation</div>
     <div class="cards-grid">
 
-      <div class="card" data-origin="hybrid" data-category="security" data-name="Digital Signature Coverage"
-        data-formula="DSC = Nsigned / Ncritical_transactions × 100%"
-        data-subchar="Non-repudiation"
-        data-provenance="Based on ISO/IEC 25023 measurement concepts and ISO/IEC 13888 non-repudiation standard (1997–2009). Adapted as a coverage metric by Saptarini et al. (2016) and Calabrese et al. (2017)."
-        data-example="A procurement system processes 200 purchase orders per month classified as critical transactions. 174 are digitally signed by the approving manager through the portal; 26 were approved via legacy email. DSC = 174/200 × 100% = 87%. Policy requires 100%. The legacy email approval route is closed and all approvers are migrated to the signing portal within two weeks."
-        data-links='[{"title":"ISO/IEC 13888-1: Non-repudiation — General Model","url":"https://www.iso.org/standard/55301.html","meta":"ISO Standard · 2009"},{"title":"Security Quality Measurement Framework – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2017"}]'>
-        <div class="card-header">
-          <div class="card-name">Digital Signature Coverage</div>
-          <span class="origin-tag hybrid">Hybrid</span>
-        </div>
-        <div class="formula">DSC = Nsigned / Ncritical_transactions × 100%</div>
-        <div class="card-tags"><span class="tag">Non-repudiation</span><span class="tag">ISO/IEC 13888</span></div>
-        <button class="details-btn">View details &amp; example →</button>
-      </div>
+<div class="card"
+ data-origin="hybrid"
+ data-category="security"
+ data-name="Digital Signature Coverage"
+ data-formula="DSC = Nsigned / Ncritical_transactions × 100%"
+ data-subchar="Non-repudiation"
+ data-provenance="Based on ISO/IEC 25023 measurement concepts and ISO/IEC 13888 non-repudiation standard (1997–2009). Adapted as a coverage metric by Saptarini et al. (2016) and Calabrese et al. (2017)."
+ data-example="A procurement system processes 200 purchase orders per month classified as critical transactions. 174 are digitally signed by the approving manager through the portal; 26 were approved via legacy email. DSC = 174/200 × 100% = 87%. Policy requires 100%. The legacy email approval route is closed and all approvers are migrated to the signing portal within two weeks."
+ data-links='[
+   {"title":"ISO/IEC 13888-1: Non-repudiation — General Model","url":"https://www.iso.org/standard/55301.html","meta":"ISO Standard · 2009"},
+   {"title":"Security Quality Measurement Framework – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2017"}
+ ]'
+ data-terms='[
+   {"symbol":"DSC","desc":"Digital Signature Coverage — percentage of critical transactions that are digitally signed"},
+   {"symbol":"Nsigned","desc":"Number of critical transactions that include a valid digital signature"},
+   {"symbol":"Ncritical_transactions","desc":"Total number of transactions classified as critical by system policy"},
+   {"symbol":"× 100%","desc":"Scaling factor to convert the ratio into a percentage"}
+ ]'>
 
-      <div class="card" data-origin="new" data-category="security" data-name="Signature Verification Success Rate"
-        data-formula="SVSR = Nverified / Nverification_attempts × 100%"
-        data-subchar="Non-repudiation"
-        data-provenance="Newly proposed by Saptarini et al. (2016) and Calabrese et al. (2017) to assess the operational reliability of non-repudiation infrastructure through ongoing verification success tracking."
-        data-example="A CI/CD pipeline verifies 500 artifact signatures per week. Last week 487 succeeded; 13 failed — 10 due to expired certificates on old build artifacts, 3 due to a misconfigured key store. SVSR = 487/500 × 100% = 97.4%. The expired certs are renewed automatically via a certificate management tool; the key store is reconfigured. SVSR hits 100% the following week."
-        data-links='[{"title":"Assistant for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"Springer · 2017"},{"title":"Security Quality Measurement Framework – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2016/2017"}]'>
-        <div class="card-header">
-          <div class="card-name">Signature Verification Success Rate</div>
-          <span class="origin-tag new">New</span>
-        </div>
-        <div class="formula">SVSR = Nverified / Nverification_attempts × 100%</div>
-        <div class="card-tags"><span class="tag">Non-repudiation</span><span class="tag">Post-2010</span></div>
-        <button class="details-btn">View details &amp; example →</button>
-      </div>
+  <div class="card-header">
+    <div class="card-name">Digital Signature Coverage</div>
+    <span class="origin-tag hybrid">Hybrid</span>
+  </div>
 
-      <div class="card" data-origin="hybrid" data-category="security" data-name="Audit Trail Completeness"
-        data-formula="ATC = Nwith_audit / Ntotal_actions × 100%"
-        data-subchar="Non-repudiation"
-        data-provenance="Classical audit trail requirements from 1980s–90s security standards, guided by NIST SP 800-92 (2006) Computer Security Log Management and ISO/IEC 27001. Adapted as a completeness metric."
-        data-example="A healthcare portal records 10,000 user actions per day. Audit logs captured 9,650; 350 actions from a batch-processing module were missed due to a logging configuration gap. ATC = 9,650/10,000 × 100% = 96.5%. HIPAA requires comprehensive audit trails — the batch module logging is reconfigured, and ATC reaches 99.97% within the week."
-        data-links='[{"title":"NIST SP 800-92: Guide to Computer Security Log Management","url":"https://csrc.nist.gov/publications/detail/sp/800-92/final","meta":"NIST · 2006"},{"title":"ISO/IEC 27001: Information Security Management Systems","url":"https://www.iso.org/standard/54534.html","meta":"ISO Standard · 2013/2022"}]'>
-        <div class="card-header">
-          <div class="card-name">Audit Trail Completeness</div>
-          <span class="origin-tag hybrid">Hybrid</span>
-        </div>
-        <div class="formula">ATC = Nwith_audit / Ntotal_actions × 100%</div>
-        <div class="card-tags"><span class="tag">Non-repudiation</span><span class="tag">NIST SP 800-92</span></div>
-        <button class="details-btn">View details &amp; example →</button>
-      </div>
+  <div class="formula">
+    DSC = Nsigned / Ncritical_transactions × 100%
+  </div>
+
+  <div class="card-tags">
+    <span class="tag">Non-repudiation</span>
+    <span class="tag">ISO/IEC 13888</span>
+  </div>
+
+  <button class="details-btn">
+    View details &amp; example →
+  </button>
+
+</div>
+
+<div class="card"
+ data-origin="new"
+ data-category="security"
+ data-name="Signature Verification Success Rate"
+ data-formula="SVSR = Nverified / Nverification_attempts × 100%"
+ data-subchar="Non-repudiation"
+ data-provenance="Proposed in modern security quality measurement research to assess the operational reliability of non-repudiation infrastructure through continuous monitoring of signature verification outcomes."
+ data-example="A CI/CD pipeline verifies 500 artifact signatures per week. Last week 487 succeeded and 13 failed — 10 due to expired certificates on old build artifacts and 3 due to a misconfigured key store. SVSR = 487/500 × 100% = 97.4%. After renewing certificates and fixing the key store configuration, the following week's SVSR reaches 100%."
+ data-links='[
+   {"title":"Assistant for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"Springer · 2017"},
+   {"title":"Security Quality Measurement Framework – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2017"}
+ ]'
+ data-terms='[
+   {"symbol":"SVSR","desc":"Signature Verification Success Rate — percentage of verification attempts that succeed"},
+   {"symbol":"Nverified","desc":"Number of signatures successfully verified by the system"},
+   {"symbol":"Nverification_attempts","desc":"Total number of signature verification attempts performed"}
+ ]'>
+
+  <div class="card-header">
+    <div class="card-name">Signature Verification Success Rate</div>
+    <span class="origin-tag new">New</span>
+  </div>
+
+  <div class="formula">
+    SVSR = Nverified / Nverification_attempts × 100%
+  </div>
+
+  <div class="card-tags">
+    <span class="tag">Non-repudiation</span>
+    <span class="tag">Post-2010</span>
+  </div>
+
+  <button class="details-btn">
+    View details &amp; example →
+  </button>
+
+</div>
+
+<div class="card"
+ data-origin="hybrid"
+ data-category="security"
+ data-name="Audit Trail Completeness"
+ data-formula="ATC = Nwith_audit / Ntotal_actions × 100%"
+ data-subchar="Non-repudiation"
+ data-provenance="Derived from classical audit trail requirements in security standards and logging practices. Influenced by NIST SP 800-92 (2006) Computer Security Log Management and ISO/IEC 27001 auditability requirements."
+ data-example="A healthcare portal records 10,000 user actions per day. Audit logs captured 9,650 actions; 350 from a batch-processing module were missed due to a logging configuration gap. ATC = 9,650/10,000 × 100% = 96.5%. After enabling logging in the batch module, ATC improves to 99.97% within the following week."
+ data-links='[
+   {"title":"NIST SP 800-92: Guide to Computer Security Log Management","url":"https://csrc.nist.gov/publications/detail/sp/800-92/final","meta":"NIST · 2006"},
+   {"title":"ISO/IEC 27001: Information Security Management Systems","url":"https://www.iso.org/standard/54534.html","meta":"ISO Standard · 2013/2022"}
+ ]'
+ data-terms='[
+   {"symbol":"ATC","desc":"Audit Trail Completeness — percentage of system actions that are recorded in the audit log"},
+   {"symbol":"Nwith_audit","desc":"Number of system actions that have corresponding audit log entries"},
+   {"symbol":"Ntotal_actions","desc":"Total number of relevant system actions that should be logged"}
+ ]'>
+
+  <div class="card-header">
+    <div class="card-name">Audit Trail Completeness</div>
+    <span class="origin-tag hybrid">Hybrid</span>
+  </div>
+
+  <div class="formula">
+    ATC = Nwith_audit / Ntotal_actions × 100%
+  </div>
+
+  <div class="card-tags">
+    <span class="tag">Non-repudiation</span>
+    <span class="tag">NIST SP 800-92</span>
+  </div>
+
+  <button class="details-btn">
+    View details &amp; example →
+  </button>
+
+</div>
 
     </div>
   </div>
