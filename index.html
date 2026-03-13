@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISO/IEC 25010 Metrics Explorer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8f9fb;
+    --white: #ffffff;
+    --surface: #f0f1f5;
+    --border: #dde0ea;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --accent: #3b5bdb;
+    --classical: #2f9e44;
+    --hybrid: #e67700;
+    --new: #6741d9;
+    --reliability: #1971c2;
+    --security: #c92a2a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 48px 24px;
+  }
+
+  .header-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .header-sub {
+    margin-top: 5px;
+    font-size: 15px;
+    color: var(--muted);
+  }
+
+  .header-pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    background: var(--white);
+  }
+
+  .pill-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  .controls {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 11px 48px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .controls-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-right: 2px;
+  }
+
+  .sep { width: 1px; height: 18px; background: var(--border); margin: 0 4px; }
+
+  .filter-btn {
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--muted);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); background: #eef2ff; }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+  .filter-btn.f-classical.active { background: var(--classical); border-color: var(--classical); color: white; }
+  .filter-btn.f-hybrid.active { background: var(--hybrid); border-color: var(--hybrid); color: white; }
+  .filter-btn.f-new.active { background: var(--new); border-color: var(--new); color: white; }
+  .filter-btn.f-reliability.active { background: var(--reliability); border-color: var(--reliability); color: white; }
+  .filter-btn.f-security.active { background: var(--security); border-color: var(--security); color: white; }
+
+  .search-wrap { margin-left: auto; position: relative; }
+  .search-input {
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--text);
+    padding: 7px 14px 7px 36px;
+    border-radius: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    width: 220px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .search-input:focus { border-color: var(--accent); }
+  .search-input::placeholder { color: #aab0c0; }
+  .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #aab0c0; pointer-events: none; }
+
+  .dist-bar {
+    padding: 12px 48px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .dist-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
+  .bar-track { flex: 1; min-width: 120px; height: 8px; border-radius: 4px; background: var(--surface); display: flex; overflow: hidden; gap: 2px; }
+  .bar-seg { height: 100%; }
+  .dist-legend { display: flex; gap: 16px; }
+  .dl-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); font-weight: 500; }
+  .dl-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+  main { padding: 32px 48px 80px; }
+
+  .section-block { margin-bottom: 48px; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .section-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 4px;
+  }
+  .section-tag.reliability { background: #dbeafe; color: var(--reliability); }
+  .section-tag.security { background: #fee2e2; color: var(--security); }
+
+  .section-heading { font-size: 18px; font-weight: 700; color: var(--text); }
+  .section-divider { flex: 1; height: 1px; background: var(--border); }
+
+  .subgroup { margin-bottom: 28px; }
+  .subgroup-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 12px;
+  }
+
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: box-shadow 0.15s, border-color 0.15s, transform 0.15s;
+  }
+  .card:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(59,91,219,0.1); transform: translateY(-1px); }
+  .card.hidden { display: none; }
+
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+  .card-name { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.3; }
+
+  .origin-tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .origin-tag.classical { background: #dcfce7; color: var(--classical); }
+  .origin-tag.hybrid { background: #fff3cd; color: var(--hybrid); }
+  .origin-tag.new { background: #ede9fe; color: var(--new); }
+
+  .formula {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    background: #f0f4ff;
+    color: var(--accent);
+    border: 1px solid #c7d2fe;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .tag {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 2px 9px;
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  .details-btn {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 7px 12px;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .details-btn:hover { background: #eef2ff; border-color: var(--accent); color: var(--accent); }
+
+  .empty { text-align: center; padding: 80px 40px; color: var(--muted); font-size: 15px; display: none; }
+
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15,15,30,0.5);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .overlay.open { display: flex; }
+
+  .modal {
+    background: var(--white);
+    border-radius: 14px;
+    max-width: 660px;
+    width: 100%;
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: 32px;
+    position: relative;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.18);
+    animation: modalIn 0.22s ease;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .modal-close:hover { background: #fee2e2; border-color: var(--security); color: var(--security); }
+
+  .modal-eyebrow { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 5px; }
+  .modal-title { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 10px; line-height: 1.2; }
+  .modal-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+
+  .modal-formula {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    background: #f0f4ff;
+    color: var(--accent);
+    border: 1px solid #c7d2fe;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+  }
+
+  .modal-section { margin-bottom: 18px; }
+  .modal-section-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+  }
+  .modal-text { font-size: 14px; line-height: 1.75; color: #374151; }
+
+  .example-box {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 14px;
+    line-height: 1.75;
+    color: #374151;
+  }
+
+  .links-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .terms-table { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .term-row { display: grid; grid-template-columns: 140px 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+  .term-row:last-child { border-bottom: none; }
+  .term-symbol {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    background: #f0f4ff;
+    padding: 9px 14px;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid var(--border);
+  }
+  .term-desc {
+    font-size: 13px;
+    color: #374151;
+    padding: 9px 14px;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    background: var(--white);
+  }
+  .paper-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    text-decoration: none;
+    transition: all 0.15s;
+    color: inherit;
+  }
+  .paper-link:hover { border-color: var(--accent); background: #eef2ff; }
+  .link-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+  .link-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+  .link-meta { font-size: 12px; color: var(--muted); }
+
+  @media (max-width: 700px) {
+    header, main, .dist-bar, .controls { padding-left: 16px; padding-right: 16px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .overlay { padding: 12px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-label">ISO/IEC 25010 · Quality Metrics Analysis</div>
+  <h1>Metrics Explorer</h1>
+  <p class="header-sub">Origins, formulas, concrete examples, and references for 29 Reliability &amp; Security metrics</p>
+  <div class="header-pills">
+    <div class="pill"><span class="pill-dot" style="background:var(--classical)"></span>6 Classical</div>
+    <div class="pill"><span class="pill-dot" style="background:var(--hybrid)"></span>10 Hybrid/Adapted</div>
+    <div class="pill"><span class="pill-dot" style="background:var(--new)"></span>13 Newly Proposed</div>
+    <div class="pill">📄 98 papers reviewed</div>
+  </div>
+</header>
+
+<div class="controls">
+  <span class="controls-label">Filter</span>
+  <button class="filter-btn active" data-filter="all">All (29)</button>
+  <div class="sep"></div>
+  <button class="filter-btn f-reliability" data-filter="reliability">Reliability</button>
+  <button class="filter-btn f-security" data-filter="security">Security</button>
+  <div class="sep"></div>
+  <button class="filter-btn f-classical" data-filter="classical">Classical</button>
+  <button class="filter-btn f-hybrid" data-filter="hybrid">Hybrid</button>
+  <button class="filter-btn f-new" data-filter="new">Newly Proposed</button>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" id="searchInput" placeholder="Search metrics…">
+  </div>
+</div>
+
+<div class="dist-bar">
+  <span class="dist-label">Origin split</span>
+  <div class="bar-track">
+    <div class="bar-seg" style="width:21%;background:var(--classical)"></div>
+    <div class="bar-seg" style="width:34%;background:var(--hybrid)"></div>
+    <div class="bar-seg" style="width:45%;background:var(--new)"></div>
+  </div>
+  <div class="dist-legend">
+    <div class="dl-item"><div class="dl-dot" style="background:var(--classical)"></div>Classical 21%</div>
+    <div class="dl-item"><div class="dl-dot" style="background:var(--hybrid)"></div>Hybrid 34%</div>
+    <div class="dl-item"><div class="dl-dot" style="background:var(--new)"></div>New 45%</div>
+  </div>
+</div>
+
+<main id="mainContent">
+
+<!-- RELIABILITY -->
+<div class="section-block" data-section="reliability">
+  <div class="section-header">
+    <span class="section-tag reliability">Reliability</span>
+    <span class="section-heading">9 Metrics</span>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="subgroup">
+    <div class="subgroup-title">Faultlessness</div>
+    <div class="cards-grid">
+
+      <div class="card" data-origin="classical" data-category="reliability" data-name="Defect Density"
+        data-formula="DD = Nd / (S × 1000)"
+        data-subchar="Faultlessness"
+        data-provenance="A foundational software engineering metric dating to the 1970s. Formalized in IEEE Std 982.1-1988 and referenced in ISO/IEC 9126 (1991). Counts known defects per thousand lines of code (KLOC)."
+        data-example="A payment service has 50,000 lines of code (50 KLOC) with 35 known defects found in testing. DD = 35 / 50 = 0.7 defects/KLOC. Industry benchmarks: under 1 is good, over 3 signals high risk. If the team fixes 20 defects before release, DD drops to 0.3 — well within the safe zone."
+        data-links='[{"title":"IEEE Std 982.1-1988: Measures to Produce Reliable Software","url":"https://ieeexplore.ieee.org/document/27785","meta":"IEEE Standard · 1988"},{"title":"An Extended Security Measurement Framework for ERP Software – Njuki et al.","url":"https://doi.org/10.5121/ijnsa.2022.14505","meta":"IJNSA Vol. 14(5) · 2022"}]'
+        data-terms='[{"symbol":"DD","desc":"Defect Density — the final metric value, expressed as defects per thousand lines of code"},{"symbol":"Nd","desc":"Number of defects — total count of known defects found (e.g. via testing or static analysis)"},{"symbol":"S","desc":"Size of the software — measured in lines of code (LOC); dividing by 1,000 converts to KLOC"},{"symbol":"× 1000","desc":"Scaling factor to express the result per thousand lines of code (KLOC), making values easier to compare"}]'>
+        <div class="card-header">
+          <div class="card-name">Defect Density</div>
+          <span class="origin-tag classical">Classical</span>
+        </div>
+        <div class="formula">DD = Nd / (S × 1000)</div>
+        <div class="card-tags">
+          <span class="tag">Faultlessness</span>
+          <span class="tag">1970s origin</span>
+          <span class="tag">IEEE 982.1</span>
+        </div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="classical" data-category="reliability" data-name="Observed Failure Rate"
+        data-formula="λ(t) = Nf(t) / Top(t)"
+        data-subchar="Faultlessness"
+        data-provenance="Originated in 1950s–60s hardware reliability engineering for military and aerospace (MIL-HDBK-217, 1965). Adapted for software by Musa, Okumoto and others through Software Reliability Growth Models in the 1970s–80s."
+        data-example="A web API ran for 720 hours last month and experienced 9 crashes. λ = 9 / 720 = 0.0125 failures/hour — roughly 1 failure every 80 hours. The team's SRE target is λ less than 0.005 failures/hour (one crash per 200 hours). They need to halve the failure rate, so the top 3 crash-causing endpoints are prioritized."
+        data-links='[{"title":"Software Reliability – Musa, Iannino & Okumoto","url":"https://dl.acm.org/doi/book/10.5555/39977","meta":"McGraw-Hill · 1987 · Classic textbook"},{"title":"MIL-HDBK-217F: Reliability Prediction of Electronic Equipment","url":"https://www.sre.org/pubs/Mil-Hdbk-217F.pdf","meta":"US DoD Handbook · 1991"}]'
+        data-terms='[{"symbol":"λ(t)","desc":"Failure rate at time t — the metric output, typically expressed as failures per hour"},{"symbol":"Nf(t)","desc":"Number of failures observed — count of system failures during the observed operating period"},{"symbol":"Top(t)","desc":"Total operating time — how long the system was running during the measurement window (in hours)"}]'>
+        <div class="card-header">
+          <div class="card-name">Observed Failure Rate</div>
+          <span class="origin-tag classical">Classical</span>
+        </div>
+        <div class="formula">λ(t) = Nf(t) / Top(t)</div>
+        <div class="card-tags">
+          <span class="tag">Faultlessness</span>
+          <span class="tag">1950s origin</span>
+          <span class="tag">MIL-HDBK-217</span>
+        </div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="subgroup">
+    <div class="subgroup-title">Availability</div>
+    <div class="cards-grid">
+
+      <div class="card" data-origin="classical" data-category="reliability" data-name="System Availability"
+        data-formula="A = Tup / Ttotal × 100%"
+        data-subchar="Availability"
+        data-provenance="Classical reliability concept from 1950s system analysis. Standardized in MIL-STD-721C (1981), IEEE Std 762-2006, and ITU-T telecom standards. The direct basis for SLA percentages like 99.9% uptime."
+        data-example="An e-commerce site was monitored for 8,760 hours (one full year). It was down for 43.8 hours total (planned maintenance plus incidents). A = (8760 - 43.8) / 8760 × 100% = 99.5%. The SLA requires 99.9% (three nines), which allows only 8.76 hours of downtime. The team must cut downtime by roughly 35 hours — they eliminate a weekly 1-hour maintenance window first."
+        data-links='[{"title":"Security Quality Measurement for AIS Based on ISO/IEC 25010 – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"ITS Journal · 2017"},{"title":"IEEE Std 762-2006: Electric Generating Unit Reliability, Availability and Productivity","url":"https://ieeexplore.ieee.org/document/4118337","meta":"IEEE Standard · 2006"}]'
+        data-terms='[{"symbol":"A","desc":"Availability — the final metric, expressed as a percentage (e.g. 99.9%)"},{"symbol":"Tup","desc":"Uptime — total time the system was operational and accessible to users"},{"symbol":"Ttotal","desc":"Total time — the full measurement window (e.g. one month = 720 hours)"},{"symbol":"Tup / Ttotal","desc":"Ratio of uptime to total time; multiplying by 100 converts to a percentage"}]'>
+        <div class="card-header">
+          <div class="card-name">System Availability</div>
+          <span class="origin-tag classical">Classical</span>
+        </div>
+        <div class="formula">A = Tup / Ttotal × 100%</div>
+        <div class="card-tags">
+          <span class="tag">Availability</span>
+          <span class="tag">SLA basis</span>
+          <span class="tag">1950s origin</span>
+        </div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="classical" data-category="reliability" data-name="Mean Time Between Failures (MTBF)"
+        data-formula="MTBF = Σ(tf,i+1 − tf,i) / (n−1)"
+        data-subchar="Availability"
+        data-provenance="Developed in the 1950s for military hardware reliability. Codified in MIL-HDBK-217, IEEE Std 762-2006, and IEC 61508 (1998). Widely used in hardware and software service planning to schedule maintenance windows."
+        data-example="A database server had 4 failures over 6 months (4,380 hours): at hours 300, 1200, 2800, and 4100. MTBF = [(1200-300) + (2800-1200) + (4100-2800)] / 3 = [900+1600+1300]/3 = 1,267 hours (about 52 days between failures). The team's target is MTBF over 2,000 hours — memory leak investigation is scheduled."
+        data-links='[{"title":"IEEE Std 762-2006: Definitions for Reliability and Availability","url":"https://ieeexplore.ieee.org/document/4118337","meta":"IEEE Standard · 2006"},{"title":"IEC 61508: Functional Safety of Electrical/Electronic Systems","url":"https://webstore.iec.ch/publication/5515","meta":"IEC Standard · 1998/2010"}]'
+        data-terms='[{"symbol":"MTBF","desc":"Mean Time Between Failures — the average time interval between successive failures"},{"symbol":"tf,i","desc":"Time of the i-th failure — the timestamp when the i-th failure occurred"},{"symbol":"tf,i+1","desc":"Time of the next (i+1-th) failure — allows computing the gap between consecutive failures"},{"symbol":"Σ(tf,i+1 − tf,i)","desc":"Sum of all inter-failure intervals — the total time across all gaps between failures"},{"symbol":"n−1","desc":"Number of inter-failure intervals — one less than the number of failures (n failures produce n−1 gaps)"}]'>
+        <div class="card-header">
+          <div class="card-name">Mean Time Between Failures (MTBF)</div>
+          <span class="origin-tag classical">Classical</span>
+        </div>
+        <div class="formula">MTBF = Σ(tf,i+1 − tf,i) / (n−1)</div>
+        <div class="card-tags">
+          <span class="tag">Availability</span>
+          <span class="tag">1950s origin</span>
+          <span class="tag">IEC 61508</span>
+        </div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="subgroup">
+    <div class="subgroup-title">Fault Tolerance</div>
+    <div class="cards-grid">
+
+      <div class="card" data-origin="hybrid" data-category="reliability" data-name="Fault Tolerance Coverage"
+        data-formula="FTC = Ntolerated / Ninjected × 100%"
+        data-subchar="Fault Tolerance"
+        data-provenance="Hybrid combining 1970s–80s fault injection testing concepts (Avizienis, Laprie) with IEEE Std 1044-2009 software anomaly classification. Formalized as a percentage metric for ISO/IEC 25010."
+        data-example="A microservices system undergoes chaos engineering: 50 faults are injected (database timeouts, network partitions, CPU spikes). The system handles 42 of them gracefully without user-visible errors. FTC = 42/50 × 100% = 84%. All 8 failures trace to the cache layer — a circuit breaker is added, bringing FTC to 96% in the next test cycle."
+        data-links='[{"title":"Fundamental Concepts of Dependability – Avizienis, Laprie et al.","url":"https://www.cs.umd.edu/~mml/858V-S05/avizienis04.pdf","meta":"IEEE Transactions on Dependable Computing · 2004"},{"title":"Security Quality Measurement Framework for AIS – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"ITS Journal · 2016/2017"}]'
+        data-terms='[{"symbol":"FTC","desc":"Fault Tolerance Coverage — the final metric as a percentage of injected faults handled gracefully"},{"symbol":"Ntolerated","desc":"Number of tolerated faults — faults the system handled without user-visible errors or data loss"},{"symbol":"Ninjected","desc":"Number of injected faults — total faults deliberately introduced during fault injection / chaos testing"}]'>
+        <div class="card-header">
+          <div class="card-name">Fault Tolerance Coverage</div>
+          <span class="origin-tag hybrid">Hybrid</span>
+        </div>
+        <div class="formula">FTC = Ntolerated / Ninjected × 100%</div>
+        <div class="card-tags">
+          <span class="tag">Fault Tolerance</span>
+          <span class="tag">Chaos engineering</span>
+          <span class="tag">IEEE 1044</span>
+        </div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="new" data-category="reliability" data-name="Degradation Severity Score"
+        data-formula="DSS = Σ(wi · di) / Σwi"
+        data-subchar="Fault Tolerance"
+        data-provenance="Newly proposed by Saptarini et al. (2016) to quantify graceful degradation under fault conditions. Applied in academic information system case study. Uses a weighted average of severity scores across degraded functions."
+        data-example="During a database outage, 3 functions degrade: Search (severity 0.9, weight 0.5 — most used), Login (severity 0.3, weight 0.3 — read-only fallback works), Reports (severity 0.6, weight 0.2). DSS = (0.9×0.5 + 0.3×0.3 + 0.6×0.2) / 1.0 = 0.66. The team set 0.7 as the on-call alert threshold — this incident stays just below it, so no escalation is triggered."
+        data-links='[{"title":"Security Quality Measurement Framework for AIS – Saptarini, Rochimah & Yuhana","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"ITS Journal · 2016"},{"title":"ISO/IEC 25010:2011 Systems and Software Quality Requirements","url":"https://www.iso.org/standard/35733.html","meta":"ISO Standard · 2011"}]'
+        data-terms='[{"symbol":"DSS","desc":"Degradation Severity Score — weighted average severity of all degraded functions during a fault event (0 = no degradation, 1 = total failure)"},{"symbol":"wi","desc":"Weight of function i — reflects the relative importance or usage frequency of the i-th system function"},{"symbol":"di","desc":"Degradation level of function i — severity score for how badly function i is impaired (0 = normal, 1 = completely unavailable)"},{"symbol":"Σwi","desc":"Sum of all weights — the denominator that normalises the result to a 0–1 scale regardless of how many functions are measured"}]'>
+        <div class="card-header">
+          <div class="card-name">Degradation Severity Score</div>
+          <span class="origin-tag new">New</span>
+        </div>
+        <div class="formula">DSS = Σ(wi · di) / Σwi</div>
+        <div class="card-tags">
+          <span class="tag">Fault Tolerance</span>
+          <span class="tag">Weighted composite</span>
+          <span class="tag">Post-2010</span>
+        </div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="subgroup">
+    <div class="subgroup-title">Recoverability</div>
+    <div class="cards-grid">
+
+      <div class="card" data-origin="classical" data-category="reliability" data-name="Mean Time To Recover (MTTR)"
+        data-formula="MTTR = Σ(tr,i − tf,i) / n"
+        data-subchar="Recoverability"
+        data-provenance="Classical maintainability metric from 1950s military logistics. Standardized in MIL-STD-721C (1981) and IEEE Std 762-2006. Adopted by ITIL for IT service management. A core DORA metric in modern DevOps measurement."
+        data-example="A cloud service had 4 incidents last quarter. Recovery times were 15, 45, 20, and 60 minutes. MTTR = (15+45+20+60) / 4 = 35 minutes. The SRE team targets MTTR under 20 minutes. The 60-minute incident required a manual rollback — it is analyzed and an automated rollback pipeline is built, cutting that scenario to under 8 minutes."
+        data-links='[{"title":"Site Reliability Engineering – Beyer, Jones, Petoff & Murphy (Google)","url":"https://sre.google/sre-book/table-of-contents/","meta":"O Reilly · 2016 · Free online"},{"title":"IEEE Std 762-2006: Reliability and Availability Definitions","url":"https://ieeexplore.ieee.org/document/4118337","meta":"IEEE Standard · 2006"}]'
+        data-terms='[{"symbol":"MTTR","desc":"Mean Time To Recover — the average duration from failure detection to full service restoration"},{"symbol":"tr,i","desc":"Recovery time of incident i — the timestamp when service was fully restored after the i-th failure"},{"symbol":"tf,i","desc":"Failure time of incident i — the timestamp when the i-th failure was detected"},{"symbol":"tr,i − tf,i","desc":"Recovery duration for incident i — the elapsed time from failure to full recovery"},{"symbol":"n","desc":"Number of incidents — the total count of failures measured in the period"}]'>
+        <div class="card-header">
+          <div class="card-name">Mean Time To Recover (MTTR)</div>
+          <span class="origin-tag classical">Classical</span>
+        </div>
+        <div class="formula">MTTR = Σ(tr,i − tf,i) / n</div>
+        <div class="card-tags">
+          <span class="tag">Recoverability</span>
+          <span class="tag">ITIL / SRE</span>
+          <span class="tag">1950s origin</span>
+        </div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="hybrid" data-category="reliability" data-name="Recovery Success Rate"
+        data-formula="RSR = Nsuccess / Nattempts × 100%"
+        data-subchar="Recoverability"
+        data-provenance="Hybrid combining classical reliability success rate metrics with ISO/IEC 25045 (SQuaRE dependability benchmarking). Adapted specifically for measuring whether recovery procedures complete successfully within defined RTO bounds."
+        data-example="A hospital information system tested its disaster recovery procedure 12 times over the year (a mix of scheduled drills and real incidents). 10 recoveries completed fully within the RTO; 2 required manual intervention outside the procedure. RSR = 10/12 × 100% = 83.3%. The team targets 95% before next compliance audit — the 2 failures are post-incident reviewed and runbooks updated."
+        data-links='[{"title":"ISO/IEC 25045: Evaluation Module for Recoverability (SQuaRE)","url":"https://www.iso.org/standard/35747.html","meta":"ISO/IEC Standard"},{"title":"Security Quality Measurement Framework – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2016/2017"}]'
+        data-terms='[{"symbol":"RSR","desc":"Recovery Success Rate — percentage of recovery attempts that completed fully within the defined procedure and RTO"},{"symbol":"Nsuccess","desc":"Number of successful recoveries — recoveries completed within the defined RTO without manual out-of-procedure intervention"},{"symbol":"Nattempts","desc":"Total recovery attempts — all recovery attempts made (both drills and real incidents) during the measurement period"}]'>
+        <div class="card-header">
+          <div class="card-name">Recovery Success Rate</div>
+          <span class="origin-tag hybrid">Hybrid</span>
+        </div>
+        <div class="formula">RSR = Nsuccess / Nattempts × 100%</div>
+        <div class="card-tags">
+          <span class="tag">Recoverability</span>
+          <span class="tag">ISO/IEC 25045</span>
+        </div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="classical" data-category="reliability" data-name="Recovery Point Objective (RPO)"
+        data-formula="RPOactual = tf − tlast_backup"
+        data-subchar="Recoverability"
+        data-provenance="Classical disaster recovery metric from 1990s business continuity planning. Formalized in NIST SP 800-34 (2002) and ISO 22301 (2012). Defines the maximum acceptable data loss window — the gap between the last backup and when failure occurred."
+        data-example="A financial database takes hourly backups. A failure occurs at 14:47. The last successful backup completed at 14:00. RPOactual = 47 minutes. The business requirement is RPO under 30 minutes. The team upgrades to 15-minute incremental backups using WAL shipping, which brings RPOactual to under 15 minutes in subsequent tests."
+        data-links='[{"title":"NIST SP 800-34 Rev.1: Contingency Planning Guide for Federal Information Systems","url":"https://csrc.nist.gov/publications/detail/sp/800-34/rev-1/final","meta":"NIST · 2010"},{"title":"ISO 22301: Business Continuity Management Systems","url":"https://www.iso.org/standard/75106.html","meta":"ISO Standard · 2019"}]'
+        data-terms='[{"symbol":"RPOactual","desc":"Actual Recovery Point Objective — the real data loss window measured after a failure event"},{"symbol":"tf","desc":"Failure time — the timestamp when the failure or data loss event occurred"},{"symbol":"tlast_backup","desc":"Last backup time — the timestamp of the most recently completed successful backup before the failure"},{"symbol":"tf − tlast_backup","desc":"Data loss window — the gap between the last safe backup and the failure; data created in this window is lost"}]'>
+        <div class="card-header">
+          <div class="card-name">Recovery Point Objective (RPO)</div>
+          <span class="origin-tag classical">Classical</span>
+        </div>
+        <div class="formula">RPOactual = tf − tlast_backup</div>
+        <div class="card-tags">
+          <span class="tag">Recoverability</span>
+          <span class="tag">NIST SP 800-34</span>
+          <span class="tag">ISO 22301</span>
+        </div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- SECURITY -->
+<div class="section-block" data-section="security">
+  <div class="section-header">
+    <span class="section-tag security">Security</span>
+    <span class="section-heading">20 Metrics</span>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="subgroup">
+    <div class="subgroup-title">Confidentiality</div>
+    <div class="cards-grid">
+
+      <div class="card" data-origin="hybrid" data-category="security" data-name="Data Protection Coverage"
+        data-formula="DPC = Nprotected / Ntotal × 100%"
+        data-subchar="Confidentiality"
+        data-provenance="Derived from ISO/IEC 25023 measurement concepts and practically formulated by Saptarini et al. (2017, 2016). Related to NIST SP 800-53 control families and ISO 27001 asset protection requirements."
+        data-example="An HR system holds 5 categories of sensitive data: employee records, payroll, performance reviews, medical records, and recruitment files. Four have encryption and access controls in place; medical records are still pending classification. DPC = 4/5 × 100% = 80%. A GDPR audit is in 6 weeks — medical records are classified and encrypted that sprint."
+        data-links='[{"title":"NIST SP 800-53 Rev.5: Security and Privacy Controls for Information Systems","url":"https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final","meta":"NIST · 2020"},{"title":"Security Quality Measurement for AIS – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2017"}]'
+        data-terms='[{"symbol":"DPC","desc":"Data Protection Coverage — percentage of data assets that have appropriate protection controls applied"},{"symbol":"Nprotected","desc":"Number of protected data assets — assets with applicable controls in place (encryption, access restrictions, classification)"},{"symbol":"Ntotal","desc":"Total number of data assets — all data asset categories or items in scope for the assessment"}]'>
+        <div class="card-header">
+          <div class="card-name">Data Protection Coverage</div>
+          <span class="origin-tag hybrid">Hybrid</span>
+        </div>
+        <div class="formula">DPC = Nprotected / Ntotal × 100%</div>
+        <div class="card-tags"><span class="tag">Confidentiality</span><span class="tag">ISO/IEC 25023</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="hybrid" data-category="security" data-name="Unauthorized Access Incident Rate"
+        data-formula="UAIR = Nunauthorized / Tperiod"
+        data-subchar="Confidentiality"
+        data-provenance="Based on 1990s–2000s security incident metrics, guided by NIST SP 800-55 (2008) performance measurement and ISO/IEC 27004. Adapted for the confidentiality sub-characteristic."
+        data-example="A corporate portal logged 14 unauthorized access attempts in Q3 (90 days). UAIR = 14/90 = 0.156 incidents per day. In Q2 there were only 6, giving 0.067/day — a 2.3x increase. The security team investigates and discovers a credential-stuffing campaign targeting the login API. Rate limiting and CAPTCHA are added, dropping Q4 to 3 incidents."
+        data-links='[{"title":"NIST SP 800-55 Rev.1: Performance Measurement Guide for Information Security","url":"https://csrc.nist.gov/publications/detail/sp/800-55/rev-1/final","meta":"NIST · 2008"},{"title":"ISO/IEC 27004: Information Security Management Measurement","url":"https://www.iso.org/standard/64120.html","meta":"ISO Standard · 2016"}]'
+        data-terms='[{"symbol":"UAIR","desc":"Unauthorized Access Incident Rate — frequency of unauthorized access incidents per unit of time"},{"symbol":"Nunauthorized","desc":"Number of unauthorized access incidents — confirmed incidents where access was gained or attempted without authorisation"},{"symbol":"Tperiod","desc":"Measurement period — the time window over which incidents were counted (e.g. 30 days, 1 quarter); result is incidents per time unit"}]'>
+        <div class="card-header">
+          <div class="card-name">Unauthorized Access Incident Rate</div>
+          <span class="origin-tag hybrid">Hybrid</span>
+        </div>
+        <div class="formula">UAIR = Nunauthorized / Tperiod</div>
+        <div class="card-tags"><span class="tag">Confidentiality</span><span class="tag">NIST SP 800-55</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="new" data-category="security" data-name="Access Control Enforcement Rate"
+        data-formula="ACER = Nblocked / Nunauthorized_attempts × 100%"
+        data-subchar="Confidentiality"
+        data-provenance="Newly proposed by Saptarini et al. (2017, 2016) to measure how effectively access control mechanisms block unauthorized attempts. Validated in academic information system security assessment."
+        data-example="A university portal recorded 340 unauthorized access attempts in one month (wrong roles, expired tokens, blocked IPs). The WAF and RBAC blocked 325; 15 slipped through a misconfigured API endpoint that skipped token validation. ACER = 325/340 × 100% = 95.6%. The endpoint is patched within the day, and ACER reaches 100% the following month."
+        data-links='[{"title":"Security Quality Measurement Framework – Saptarini, Rochimah & Yuhana","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2017"},{"title":"NIST SP 800-162: Guide to Attribute-Based Access Control (ABAC)","url":"https://csrc.nist.gov/publications/detail/sp/800-162/final","meta":"NIST · 2014"}]'
+        data-terms='[{"symbol":"ACER","desc":"Access Control Enforcement Rate — percentage of unauthorized attempts that were successfully blocked by access controls"},{"symbol":"Nblocked","desc":"Number of blocked attempts — unauthorized access attempts that were detected and denied by the system"},{"symbol":"Nunauthorized_attempts","desc":"Total unauthorized attempts — all attempts to access the system without valid authorisation, whether blocked or not"}]'>
+        <div class="card-header">
+          <div class="card-name">Access Control Enforcement Rate</div>
+          <span class="origin-tag new">New</span>
+        </div>
+        <div class="formula">ACER = Nblocked / Nunauthorized_attempts × 100%</div>
+        <div class="card-tags"><span class="tag">Confidentiality</span><span class="tag">Post-2010</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="subgroup">
+    <div class="subgroup-title">Integrity</div>
+    <div class="cards-grid">
+
+      <div class="card" data-origin="new" data-category="security" data-name="Data Integrity Protection Score"
+        data-formula="DIPS = Σ(Pci · wi) / Σwi"
+        data-subchar="Integrity"
+        data-provenance="Newly proposed by Calabrese et al. (2017) using the GQM (Goal-Question-Metric) methodology. Provides a weighted composite score across multiple integrity control dimensions. Case study reported example value: 0.75."
+        data-example="An ERP system is evaluated on 3 integrity controls: checksums (Pc=0.9, w=0.4), database constraints (Pc=0.7, w=0.4), and audit trails (Pc=0.5, w=0.2). DIPS = (0.9×0.4 + 0.7×0.4 + 0.5×0.2) / 1.0 = 0.74. This falls below the team's 0.8 threshold. Audit trail coverage is identified as the weakest link and prioritized in the next sprint."
+        data-links='[{"title":"Assistant for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"CCIS Vol. 747 · Springer · 2017"},{"title":"The Goal Question Metric Approach – Basili, Caldiera & Rombach","url":"https://www.cs.umd.edu/~basili/publications/technical/T79.pdf","meta":"Encyclopedia of Software Engineering · 1994"}]'
+        data-terms='[{"symbol":"DIPS","desc":"Data Integrity Protection Score — weighted composite score (0–1) reflecting how well integrity is protected across all controls"},{"symbol":"Pci","desc":"Protection completeness of control i — how fully integrity control i is implemented (0 = not implemented, 1 = fully implemented)"},{"symbol":"wi","desc":"Weight of control i — relative importance of this control in the overall integrity posture (weights sum to 1)"},{"symbol":"Σwi","desc":"Sum of all weights — normalisation denominator ensuring the result stays on a 0–1 scale"}]'>
+        <div class="card-header">
+          <div class="card-name">Data Integrity Protection Score</div>
+          <span class="origin-tag new">New</span>
+        </div>
+        <div class="formula">DIPS = Σ(Pci · wi) / Σwi</div>
+        <div class="card-tags"><span class="tag">Integrity</span><span class="tag">GQM approach</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="new" data-category="security" data-name="Integrity Violation Rate"
+        data-formula="IVR = Nviolations / Ntransactions × 10⁶"
+        data-subchar="Integrity"
+        data-provenance="Newly proposed by Calabrese et al. (2017). Normalized per million transactions so the metric remains comparable across systems of very different sizes and transaction volumes."
+        data-example="A banking system processed 8.5 million transactions last month. Integrity checks flagged 17 violations caused by a race condition in the transfer module. IVR = 17 / 8,500,000 × 1,000,000 = 2.0 violations per million transactions. The team's target is below 1. The race condition is fixed, and IVR drops to 0 the following month."
+        data-links='[{"title":"Assistant for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"CCIS Vol. 747 · Springer · 2017"},{"title":"ISO/IEC 25010:2011 Systems and Software Quality Requirements","url":"https://www.iso.org/standard/35733.html","meta":"ISO Standard · 2011"}]'
+        data-terms='[{"symbol":"IVR","desc":"Integrity Violation Rate — frequency of integrity breaches per million transactions; normalised for cross-system comparability"},{"symbol":"Nviolations","desc":"Number of integrity violations — confirmed cases where data was corrupted, tampered with, or inconsistently modified"},{"symbol":"Ntransactions","desc":"Total transactions processed — the denominator representing all operations processed in the measurement period"},{"symbol":"× 10⁶","desc":"Scaling factor — multiplies the ratio by one million so the result is expressed per million transactions (avoids tiny decimal values)"}]'>
+        <div class="card-header">
+          <div class="card-name">Integrity Violation Rate</div>
+          <span class="origin-tag new">New</span>
+        </div>
+        <div class="formula">IVR = Nviolations / Ntransactions × 10⁶</div>
+        <div class="card-tags"><span class="tag">Integrity</span><span class="tag">Per-million scale</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="hybrid" data-category="security" data-name="Integrity Check Coverage"
+        data-formula="ICC = Nwith_checks / Ntotal_objects × 100%"
+        data-subchar="Integrity"
+        data-provenance="Classical software testing coverage concept (1970s–80s) adapted by Calabrese et al. (2017) to measure how comprehensively integrity verification mechanisms are applied across data objects in a system."
+        data-example="A content management system has 120 data objects (tables, files, API endpoints). Integrity checks (hash validation, format constraints, foreign key rules) are applied to 96 of them; 24 legacy reporting tables lack any validation. ICC = 96/120 × 100% = 80%. The 24 legacy objects are added to the backlog and addressed over two sprints."
+        data-links='[{"title":"Assistant for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"CCIS Vol. 747 · Springer · 2017"},{"title":"ISO/IEC 25023: Measurement of System and Software Product Quality","url":"https://www.iso.org/standard/35747.html","meta":"ISO Standard · 2016"}]'
+        data-terms='[{"symbol":"ICC","desc":"Integrity Check Coverage — percentage of data objects that have at least one integrity verification mechanism applied"},{"symbol":"Nwith_checks","desc":"Number of objects with integrity checks — data objects (tables, files, endpoints) that have validation rules, hash checks, or constraints"},{"symbol":"Ntotal_objects","desc":"Total number of data objects — all data objects in scope for the integrity assessment"}]'>
+        <div class="card-header">
+          <div class="card-name">Integrity Check Coverage</div>
+          <span class="origin-tag hybrid">Hybrid</span>
+        </div>
+        <div class="formula">ICC = Nwith_checks / Ntotal_objects × 100%</div>
+        <div class="card-tags"><span class="tag">Integrity</span><span class="tag">Coverage concept</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="subgroup">
+    <div class="subgroup-title">Non-repudiation</div>
+    <div class="cards-grid">
+
+      <div class="card" data-origin="hybrid" data-category="security" data-name="Digital Signature Coverage"
+        data-formula="DSC = Nsigned / Ncritical_transactions × 100%"
+        data-subchar="Non-repudiation"
+        data-provenance="Based on ISO/IEC 25023 measurement concepts and ISO/IEC 13888 non-repudiation standard (1997–2009). Adapted as a coverage metric by Saptarini et al. (2016) and Calabrese et al. (2017)."
+        data-example="A procurement system processes 200 purchase orders per month classified as critical transactions. 174 are digitally signed by the approving manager through the portal; 26 were approved via legacy email. DSC = 174/200 × 100% = 87%. Policy requires 100%. The legacy email approval route is closed and all approvers are migrated to the signing portal within two weeks."
+        data-links='[{"title":"ISO/IEC 13888-1: Non-repudiation — General Model","url":"https://www.iso.org/standard/55301.html","meta":"ISO Standard · 2009"},{"title":"Security Quality Measurement Framework – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2017"}]'>
+        <div class="card-header">
+          <div class="card-name">Digital Signature Coverage</div>
+          <span class="origin-tag hybrid">Hybrid</span>
+        </div>
+        <div class="formula">DSC = Nsigned / Ncritical_transactions × 100%</div>
+        <div class="card-tags"><span class="tag">Non-repudiation</span><span class="tag">ISO/IEC 13888</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="new" data-category="security" data-name="Signature Verification Success Rate"
+        data-formula="SVSR = Nverified / Nverification_attempts × 100%"
+        data-subchar="Non-repudiation"
+        data-provenance="Newly proposed by Saptarini et al. (2016) and Calabrese et al. (2017) to assess the operational reliability of non-repudiation infrastructure through ongoing verification success tracking."
+        data-example="A CI/CD pipeline verifies 500 artifact signatures per week. Last week 487 succeeded; 13 failed — 10 due to expired certificates on old build artifacts, 3 due to a misconfigured key store. SVSR = 487/500 × 100% = 97.4%. The expired certs are renewed automatically via a certificate management tool; the key store is reconfigured. SVSR hits 100% the following week."
+        data-links='[{"title":"Assistant for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"Springer · 2017"},{"title":"Security Quality Measurement Framework – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2016/2017"}]'>
+        <div class="card-header">
+          <div class="card-name">Signature Verification Success Rate</div>
+          <span class="origin-tag new">New</span>
+        </div>
+        <div class="formula">SVSR = Nverified / Nverification_attempts × 100%</div>
+        <div class="card-tags"><span class="tag">Non-repudiation</span><span class="tag">Post-2010</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="hybrid" data-category="security" data-name="Audit Trail Completeness"
+        data-formula="ATC = Nwith_audit / Ntotal_actions × 100%"
+        data-subchar="Non-repudiation"
+        data-provenance="Classical audit trail requirements from 1980s–90s security standards, guided by NIST SP 800-92 (2006) Computer Security Log Management and ISO/IEC 27001. Adapted as a completeness metric."
+        data-example="A healthcare portal records 10,000 user actions per day. Audit logs captured 9,650; 350 actions from a batch-processing module were missed due to a logging configuration gap. ATC = 9,650/10,000 × 100% = 96.5%. HIPAA requires comprehensive audit trails — the batch module logging is reconfigured, and ATC reaches 99.97% within the week."
+        data-links='[{"title":"NIST SP 800-92: Guide to Computer Security Log Management","url":"https://csrc.nist.gov/publications/detail/sp/800-92/final","meta":"NIST · 2006"},{"title":"ISO/IEC 27001: Information Security Management Systems","url":"https://www.iso.org/standard/54534.html","meta":"ISO Standard · 2013/2022"}]'>
+        <div class="card-header">
+          <div class="card-name">Audit Trail Completeness</div>
+          <span class="origin-tag hybrid">Hybrid</span>
+        </div>
+        <div class="formula">ATC = Nwith_audit / Ntotal_actions × 100%</div>
+        <div class="card-tags"><span class="tag">Non-repudiation</span><span class="tag">NIST SP 800-92</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="subgroup">
+    <div class="subgroup-title">Accountability</div>
+    <div class="cards-grid">
+
+      <div class="card" data-origin="hybrid" data-category="security" data-name="Audit Log Coverage"
+        data-formula="ALC = Nlogged / Ntotal_actions × 100%"
+        data-subchar="Accountability"
+        data-provenance="Classical audit logging concept adapted from NIST SP 800-92 log management guidance and ISO/IEC 27001 logging requirements. Formalized by Calabrese et al. (2017) and Saptarini et al. (2016) for ISO/IEC 25010."
+        data-example="A SaaS platform defines 8 action categories that must be logged: login/logout, data export, admin changes, payment events, API calls, file uploads, config changes, and user management. 6 of 8 are fully covered; API calls and file uploads log only errors. ALC = 6/8 × 100% = 75%. Both categories are upgraded to full event logging before the SOC 2 audit."
+        data-links='[{"title":"NIST SP 800-92: Guide to Computer Security Log Management","url":"https://csrc.nist.gov/publications/detail/sp/800-92/final","meta":"NIST · 2006"},{"title":"ISO/IEC 27001: Information Security Management Systems","url":"https://www.iso.org/standard/54534.html","meta":"ISO Standard · 2022"}]'>
+        <div class="card-header">
+          <div class="card-name">Audit Log Coverage</div>
+          <span class="origin-tag hybrid">Hybrid</span>
+        </div>
+        <div class="formula">ALC = Nlogged / Ntotal_actions × 100%</div>
+        <div class="card-tags"><span class="tag">Accountability</span><span class="tag">ISO 27001</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="new" data-category="security" data-name="Log Integrity Score"
+        data-formula="LIS = w1·P + w2·T + w3·C"
+        data-subchar="Accountability"
+        data-provenance="Newly proposed composite metric by Calabrese et al. (2017) and Saptarini et al. (2016). Three components: Protection (P) — log access controls; Tamper detection (T) — hash chaining or WORM storage; Centralization (C) — all logs flow to a SIEM."
+        data-example="A fintech company scores its log infrastructure: Protection P=0.8 (logs are access-controlled but shared service accounts exist), Tamper detection T=0.6 (SHA-256 hashing is partial — only the prod database), Centralization C=1.0 (all services send to Splunk). Weights: w1=0.4, w2=0.4, w3=0.2. LIS = 0.32+0.24+0.20 = 0.76. Target is 0.9 — tamper detection is the priority gap and is extended to all services."
+        data-links='[{"title":"Assistant for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"Springer · 2017"},{"title":"NIST SP 800-92: Guide to Computer Security Log Management","url":"https://csrc.nist.gov/publications/detail/sp/800-92/final","meta":"NIST · 2006"}]'>
+        <div class="card-header">
+          <div class="card-name">Log Integrity Score</div>
+          <span class="origin-tag new">New</span>
+        </div>
+        <div class="formula">LIS = w1·P + w2·T + w3·C</div>
+        <div class="card-tags"><span class="tag">Accountability</span><span class="tag">Composite score</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="new" data-category="security" data-name="Attribution Latency"
+        data-formula="AL = Σ(tattr,i − taction,i) / n"
+        data-subchar="Accountability"
+        data-provenance="Newly proposed by Calabrese et al. (2017) and Saptarini et al. (2016). Measures the average time between an action occurring and an operator identifying the responsible actor — critical for incident response and forensic investigations."
+        data-example="After a suspicious data export, the security team investigates 5 actions. Time from action to actor identification: 4 min, 12 min, 3 min, 25 min, and 6 min. AL = (4+12+3+25+6)/5 = 10 minutes. The 25-minute case involved a shared service account with minimal logging — individual named accounts are enforced as an immediate corrective action, bringing average AL to 5 minutes."
+        data-links='[{"title":"Assistant for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"Springer · 2017"},{"title":"NIST SP 800-86: Guide to Integrating Forensic Techniques into Incident Response","url":"https://csrc.nist.gov/publications/detail/sp/800-86/final","meta":"NIST · 2006"}]'>
+        <div class="card-header">
+          <div class="card-name">Attribution Latency</div>
+          <span class="origin-tag new">New</span>
+        </div>
+        <div class="formula">AL = Σ(tattr,i − taction,i) / n</div>
+        <div class="card-tags"><span class="tag">Accountability</span><span class="tag">Forensics</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="subgroup">
+    <div class="subgroup-title">Authenticity</div>
+    <div class="cards-grid">
+
+      <div class="card" data-origin="hybrid" data-category="security" data-name="Authentication Coverage"
+        data-formula="AC = Nauthenticated / Ntotal_interfaces × 100%"
+        data-subchar="Authenticity"
+        data-provenance="Based on authentication requirements from NIST SP 800-63 Digital Identity Guidelines (2003+) and ISO/IEC 27001 access control requirements. Adapted as a coverage metric for ISO/IEC 25010 by Saptarini et al. (2016)."
+        data-example="A microservices application has 18 API endpoints. 15 require a valid JWT token; 3 internal health-check and metrics endpoints are unauthenticated. AC = 15/18 × 100% = 83.3%. A penetration test reveals the metrics endpoint leaks version info useful to attackers. It is placed behind network policy, bringing AC to 100% for all externally reachable interfaces."
+        data-links='[{"title":"NIST SP 800-63B: Digital Identity Guidelines — Authentication and Lifecycle","url":"https://pages.nist.gov/800-63-3/sp800-63b.html","meta":"NIST · 2017 (updated 2020)"},{"title":"Security Quality Measurement Framework – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2016/2017"}]'>
+        <div class="card-header">
+          <div class="card-name">Authentication Coverage</div>
+          <span class="origin-tag hybrid">Hybrid</span>
+        </div>
+        <div class="formula">AC = Nauthenticated / Ntotal_interfaces × 100%</div>
+        <div class="card-tags"><span class="tag">Authenticity</span><span class="tag">NIST SP 800-63</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="classical" data-category="security" data-name="Authentication Success Rate"
+        data-formula="ASR = Nsuccessful / Nattempts × 100%"
+        data-subchar="Authenticity"
+        data-provenance="Classical success rate metric from system monitoring practices (1980s–90s), guided by NIST authentication monitoring recommendations. Widely used in monitoring dashboards before being formalized under ISO/IEC 25010."
+        data-example="A corporate VPN recorded 12,400 login attempts last month. 11,780 succeeded; 620 failed (wrong passwords, expired accounts, blocked IPs). ASR = 11,780/12,400 × 100% = 95%. One Tuesday morning ASR dropped suddenly to 82% for 3 hours — correlated with a phishing campaign targeting employee credentials. The anomaly triggered an automated lockout on affected accounts."
+        data-links='[{"title":"NIST SP 800-63B: Digital Identity Guidelines — Authentication","url":"https://pages.nist.gov/800-63-3/sp800-63b.html","meta":"NIST · 2017"},{"title":"Security Quality Measurement Framework – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2016/2017"}]'>
+        <div class="card-header">
+          <div class="card-name">Authentication Success Rate</div>
+          <span class="origin-tag classical">Classical</span>
+        </div>
+        <div class="formula">ASR = Nsuccessful / Nattempts × 100%</div>
+        <div class="card-tags"><span class="tag">Authenticity</span><span class="tag">1980s origin</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="hybrid" data-category="security" data-name="MFA Adoption Rate"
+        data-formula="MFAadoption = NMFA_users / Ntotal_users × 100%"
+        data-subchar="Authenticity"
+        data-provenance="Multi-factor authentication concept from NIST SP 800-63 (2000s). Formulated as an adoption rate metric for ISO/IEC 25010 by Saptarini et al. (2016). Increasingly mandated by PCI-DSS and SOC 2 compliance frameworks."
+        data-example="A 350-person company rolls out MFA. After month 1: 280 users enrolled (TOTP app or hardware key), 70 have not. MFAadoption = 280/350 × 100% = 80%. The 70 remaining users are mostly in operations. A firm deadline is announced: after two weeks, users without MFA will be locked out. By the deadline, 347 of 350 are enrolled — 3 are on extended leave and enrolled upon return."
+        data-links='[{"title":"NIST SP 800-63B: Digital Identity Guidelines — Authentication and Lifecycle","url":"https://pages.nist.gov/800-63-3/sp800-63b.html","meta":"NIST · 2017"},{"title":"PCI DSS v4.0: Requirement 8 — Identify Users and Authenticate Access to System Components","url":"https://www.pcisecuritystandards.org/document_library/","meta":"PCI SSC · 2022"}]'>
+        <div class="card-header">
+          <div class="card-name">MFA Adoption Rate</div>
+          <span class="origin-tag hybrid">Hybrid</span>
+        </div>
+        <div class="formula">MFAadoption = NMFA_users / Ntotal_users × 100%</div>
+        <div class="card-tags"><span class="tag">Authenticity</span><span class="tag">NIST SP 800-63</span><span class="tag">PCI-DSS</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="subgroup">
+    <div class="subgroup-title">Resistance</div>
+    <div class="cards-grid">
+
+      <div class="card" data-origin="new" data-category="security" data-name="Acute Vulnerability Score"
+        data-formula="AVS = Σ(wi · vi)"
+        data-subchar="Resistance"
+        data-provenance="Newly proposed in Performance Efficiency Evaluation based on ISO/IEC 25010:2011 (2017). Severity weights are derived from CVSS (Common Vulnerability Scoring System). Validated against ISO 1061-1998 criteria."
+        data-example="A static analysis scan of a Node.js app finds 4 vulnerabilities: SQL injection (CVSS 9.8), XSS (CVSS 6.1), outdated dependency with a known CVE (CVSS 5.5), and a weak cipher in transit (CVSS 3.1). AVS = 9.8+6.1+5.5+3.1 = 24.5. The team's release gate is AVS under 10. After fixing the SQL injection and XSS, AVS drops to 8.6 — the build is cleared for release."
+        data-links='[{"title":"CVSS v3.1 Specification Document – FIRST","url":"https://www.first.org/cvss/specification-document","meta":"FIRST · 2019"},{"title":"Performance Efficiency Evaluation Based on ISO/IEC 25010:2011 – WTDQS","url":"https://sol.sbc.org.br/index.php/wtdqs/article/view/12576","meta":"Workshop de Teses em Qualidade de Software · 2017"}]'>
+        <div class="card-header">
+          <div class="card-name">Acute Vulnerability Score</div>
+          <span class="origin-tag new">New</span>
+        </div>
+        <div class="formula">AVS = Σ(wi · vi)</div>
+        <div class="card-tags"><span class="tag">Resistance</span><span class="tag">CVSS weights</span><span class="tag">SAST</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="new" data-category="security" data-name="Dependency Vulnerability Score"
+        data-formula="DVS = Σⱼ Σᵢ (wi · dj,i)"
+        data-subchar="Resistance"
+        data-provenance="Newly proposed in Performance Efficiency Evaluation (2017) to address supply chain security risk from third-party components. Empirically validated for discriminative power and the ability to track improvements over time."
+        data-example="A Python service has 3 vulnerable dependencies: requests (two CVEs: CVSS 7.5 and 4.3), cryptography (one CVE: CVSS 8.1), and urllib3 (one CVE: CVSS 5.3). DVS = (7.5+4.3) + 8.1 + 5.3 = 25.2. The CI/CD pipeline is configured to fail builds when DVS exceeds 20. After updating all three packages to their patched versions, DVS drops to 0 and the build passes."
+        data-links='[{"title":"OWASP Dependency-Check: Identifying Project Dependencies with Known Vulnerabilities","url":"https://owasp.org/www-project-dependency-check/","meta":"OWASP · Open Source Tool"},{"title":"Performance Efficiency Evaluation Based on ISO/IEC 25010:2011 – WTDQS","url":"https://sol.sbc.org.br/index.php/wtdqs/article/view/12576","meta":"Workshop de Teses em Qualidade de Software · 2017"}]'>
+        <div class="card-header">
+          <div class="card-name">Dependency Vulnerability Score</div>
+          <span class="origin-tag new">New</span>
+        </div>
+        <div class="formula">DVS = Σⱼ Σᵢ (wi · dj,i)</div>
+        <div class="card-tags"><span class="tag">Resistance</span><span class="tag">Supply chain</span><span class="tag">SCA</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="new" data-category="security" data-name="Dependency Freshness Score"
+        data-formula="DFS = Σfj / m"
+        data-subchar="Resistance"
+        data-provenance="Newly proposed in Performance Efficiency Evaluation (2017). Serves as a proxy metric for security exposure through outdated dependencies. fj is a freshness score per dependency (0–1). Validated in large-scale software projects."
+        data-example="A Java service has 5 key dependencies. Freshness scores based on versions behind latest stable: Spring Boot (latest, fj=1.0), Hibernate (2 versions behind, fj=0.6), Gson (current, fj=1.0), Log4j (3 versions behind, fj=0.4), Jackson (current, fj=1.0). DFS = (1.0+0.6+1.0+0.4+1.0)/5 = 0.80. Target is DFS at least 0.90 — Hibernate and Log4j are updated that week, bringing DFS to 1.0."
+        data-links='[{"title":"Performance Efficiency Evaluation Based on ISO/IEC 25010:2011 – WTDQS","url":"https://sol.sbc.org.br/index.php/wtdqs/article/view/12576","meta":"Workshop de Teses em Qualidade de Software · 2017"},{"title":"Renovate: Automated Dependency Updates","url":"https://docs.renovatebot.com/","meta":"Mend · Open Source Tool"}]'>
+        <div class="card-header">
+          <div class="card-name">Dependency Freshness Score</div>
+          <span class="origin-tag new">New</span>
+        </div>
+        <div class="formula">DFS = Σfj / m</div>
+        <div class="card-tags"><span class="tag">Resistance</span><span class="tag">Dependency hygiene</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+      <div class="card" data-origin="new" data-category="security" data-name="Composite Resistance Score"
+        data-formula="CRS = α·(1−AVS/AVSmax) + β·(1−DVS/DVSmax) + γ·DFS"
+        data-subchar="Resistance"
+        data-provenance="Newly proposed in Performance Efficiency Evaluation (2017). Aggregates three vulnerability dimensions — source code (AVS), dependencies (DVS), and freshness (DFS) — into a single 0–1 score for executive-level security dashboards. Weights α, β, γ are set per organizational risk appetite."
+        data-example="Team sets α=0.4, β=0.4, γ=0.2. AVSmax=50, DVSmax=50. Before patching: AVS=24.5, DVS=12, DFS=0.80. CRS = 0.4×(1−24.5/50) + 0.4×(1−12/50) + 0.2×0.80 = 0.204+0.304+0.160 = 0.668. After the sprint where SQLi, XSS, and all dependency CVEs are fixed (AVS=8.6, DVS=0, DFS=0.90): CRS = 0.4×0.828 + 0.4×1.0 + 0.2×0.90 = 0.331+0.400+0.180 = 0.911. The dashboard goes from amber to green."
+        data-links='[{"title":"Performance Efficiency Evaluation Based on ISO/IEC 25010:2011 – WTDQS","url":"https://sol.sbc.org.br/index.php/wtdqs/article/view/12576","meta":"Workshop de Teses em Qualidade de Software · 2017"},{"title":"ISO/IEC 25010:2011 Systems and Software Quality Requirements and Evaluation","url":"https://www.iso.org/standard/35733.html","meta":"ISO Standard · 2011"}]'>
+        <div class="card-header">
+          <div class="card-name">Composite Resistance Score</div>
+          <span class="origin-tag new">New</span>
+        </div>
+        <div class="formula">CRS = α·(1−AVS/AVSmax) + β·(1−DVS/DVSmax) + γ·DFS</div>
+        <div class="card-tags"><span class="tag">Resistance</span><span class="tag">Executive metric</span><span class="tag">Composite</span></div>
+        <button class="details-btn">View details &amp; example →</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="empty" id="emptyState">No metrics match your filters.</div>
+</main>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="closeOverlay(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-eyebrow" id="mEyebrow"></div>
+    <div class="modal-title" id="mTitle"></div>
+    <div class="modal-badges" id="mBadges"></div>
+    <div class="modal-formula" id="mFormula"></div>
+    <div class="modal-section">
+      <div class="modal-section-title">📐 Formula Terms</div>
+      <div class="terms-table" id="mTerms"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Provenance &amp; Origin</div>
+      <div class="modal-text" id="mProvenance"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">💡 Concrete Example</div>
+      <div class="example-box" id="mExample"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">📚 Key References</div>
+      <div class="links-list" id="mLinks"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const cards = document.querySelectorAll('.card');
+  const emptyState = document.getElementById('emptyState');
+  const allBtn = document.querySelector('.filter-btn[data-filter="all"]');
+  let activeOrigin = 'all', activeCategory = 'all', activeSearch = '';
+
+  function applyFilters() {
+    let visible = 0;
+    cards.forEach(card => {
+      const searchable = [
+        card.dataset.name, card.dataset.subchar, card.dataset.formula,
+        card.dataset.provenance, card.dataset.example,
+        ...Array.from(card.querySelectorAll('.tag')).map(t => t.textContent)
+      ].join(' ').toLowerCase();
+
+      const show =
+        (activeOrigin === 'all' || card.dataset.origin === activeOrigin) &&
+        (activeCategory === 'all' || card.dataset.category === activeCategory) &&
+        (!activeSearch || searchable.includes(activeSearch));
+
+      card.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+
+    document.querySelectorAll('.subgroup').forEach(sg => {
+      sg.style.display = sg.querySelectorAll('.card:not(.hidden)').length ? '' : 'none';
+    });
+    document.querySelectorAll('.section-block').forEach(sb => {
+      sb.style.display = sb.querySelectorAll('.card:not(.hidden)').length ? '' : 'none';
+    });
+
+    emptyState.style.display = visible === 0 ? 'block' : 'none';
+    allBtn.classList.toggle('active', activeOrigin === 'all' && activeCategory === 'all');
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+      if (f === 'all') {
+        activeOrigin = 'all'; activeCategory = 'all';
+        document.querySelectorAll('.filter-btn:not([data-filter="all"])').forEach(b => b.classList.remove('active'));
+      } else if (['classical','hybrid','new'].includes(f)) {
+        document.querySelectorAll('.filter-btn[data-filter="classical"],.filter-btn[data-filter="hybrid"],.filter-btn[data-filter="new"]').forEach(b => b.classList.remove('active'));
+        activeOrigin = activeOrigin === f ? 'all' : f;
+        if (activeOrigin !== 'all') btn.classList.add('active');
+      } else {
+        document.querySelectorAll('.filter-btn[data-filter="reliability"],.filter-btn[data-filter="security"]').forEach(b => b.classList.remove('active'));
+        activeCategory = activeCategory === f ? 'all' : f;
+        if (activeCategory !== 'all') btn.classList.add('active');
+      }
+      applyFilters();
+    });
+  });
+
+  document.getElementById('searchInput').addEventListener('input', e => {
+    activeSearch = e.target.value.toLowerCase().trim();
+    applyFilters();
+  });
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => openModal(card));
+    card.querySelector('.details-btn').addEventListener('click', e => { e.stopPropagation(); openModal(card); });
+  });
+
+  function openModal(card) {
+    const o = card.dataset.origin;
+    const oLabel = { classical: 'Classical Metric', hybrid: 'Hybrid / Adapted', new: 'Newly Proposed' }[o];
+    const oBg   = { classical: '#dcfce7', hybrid: '#fff3cd', new: '#ede9fe' }[o];
+    const oColor= { classical: 'var(--classical)', hybrid: 'var(--hybrid)', new: 'var(--new)' }[o];
+    const catColor = card.dataset.category === 'reliability' ? 'var(--reliability)' : 'var(--security)';
+    const catBg    = card.dataset.category === 'reliability' ? '#dbeafe' : '#fee2e2';
+    const catLabel = card.dataset.category === 'reliability' ? 'Reliability' : 'Security';
+
+    document.getElementById('mEyebrow').textContent = card.dataset.subchar + ' · ' + catLabel;
+    document.getElementById('mTitle').textContent = card.dataset.name;
+    document.getElementById('mFormula').textContent = card.dataset.formula;
+    document.getElementById('mProvenance').textContent = card.dataset.provenance;
+    document.getElementById('mExample').textContent = card.dataset.example;
+
+    // Formula terms
+    const terms = JSON.parse(card.dataset.terms || '[]');
+    document.getElementById('mTerms').innerHTML = terms.map(t =>
+      `<div class="term-row"><div class="term-symbol">${t.symbol}</div><div class="term-desc">${t.desc}</div></div>`
+    ).join('');
+
+    document.getElementById('mBadges').innerHTML =
+      `<span style="font-size:12px;font-weight:600;padding:4px 10px;border-radius:4px;background:${oBg};color:${oColor}">${oLabel}</span>` +
+      `<span style="font-size:12px;font-weight:600;padding:4px 10px;border-radius:4px;background:${catBg};color:${catColor}">${catLabel}</span>`;
+
+    const links = JSON.parse(card.dataset.links);
+    document.getElementById('mLinks').innerHTML = links.map(l =>
+      `<a class="paper-link" href="${l.url}" target="_blank" rel="noopener">
+        <span class="link-icon">📄</span>
+        <div>
+          <div class="link-title">${l.title}</div>
+          <div class="link-meta">${l.meta}</div>
+        </div>
+      </a>`
+    ).join('');
+
+    document.getElementById('overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function closeOverlay(e) {
+    if (e.target === document.getElementById('overlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
