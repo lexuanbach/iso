@@ -466,7 +466,7 @@
         data-subchar="Faultlessness"
         data-provenance="A foundational software engineering metric dating to the 1970s. Formalized in IEEE Std 982.1-1988 and referenced in ISO/IEC 9126 (1991). Counts known defects per thousand lines of code (KLOC)."
         data-example="A payment service has 50,000 lines of code (50 KLOC) with 35 known defects found in testing. DD = 35 / 50 = 0.7 defects/KLOC. Industry benchmarks: under 1 is good, over 3 signals high risk. If the team fixes 20 defects before release, DD drops to 0.3 — well within the safe zone."
-        data-links='[{"title":"IEEE Std 982.1-1988: Measures to Produce Reliable Software","url":"https://ieeexplore.ieee.org/document/27785","meta":"IEEE Standard · 1988"},{"title":"An Extended Security Measurement Framework for ERP Software – Njuki et al.","url":"https://doi.org/10.5121/ijnsa.2022.14505","meta":"IJNSA Vol. 14(5) · 2022"}]'
+        data-links='[{"title":"IEEE Std 982.1-1988: Standard Dictionary of Measures to Produce Reliable Software","url":"https://ieeexplore.ieee.org/document/27971","meta":"IEEE Standard · 1988"},{"title":"An Extended Security Measurement Framework for Open-Source ERP Software Security – Njuki et al.","url":"https://doi.org/10.5121/ijnsa.2022.14505","meta":"IJNSA Journal · 2022"}]'
         data-terms='[{"symbol":"DD","desc":"Defect Density — the final metric value, expressed as defects per thousand lines of code"},{"symbol":"Nd","desc":"Number of defects — total count of known defects found (e.g. via testing or static analysis)"},{"symbol":"S","desc":"Size of the software — measured in lines of code (LOC); dividing by 1,000 converts to KLOC"},{"symbol":"× 1000","desc":"Scaling factor to express the result per thousand lines of code (KLOC), making values easier to compare"}]'>
         <div class="card-header">
           <div class="card-name">Defect Density</div>
@@ -486,7 +486,7 @@
         data-subchar="Faultlessness"
         data-provenance="Originated in 1950s–60s hardware reliability engineering for military and aerospace (MIL-HDBK-217, 1965). Adapted for software by Musa, Okumoto and others through Software Reliability Growth Models in the 1970s–80s."
         data-example="A web API ran for 720 hours last month and experienced 9 crashes. λ = 9 / 720 = 0.0125 failures/hour — roughly 1 failure every 80 hours. The team's SRE target is λ less than 0.005 failures/hour (one crash per 200 hours). They need to halve the failure rate, so the top 3 crash-causing endpoints are prioritized."
-        data-links='[{"title":"Software Reliability – Musa, Iannino & Okumoto","url":"https://dl.acm.org/doi/book/10.5555/39977","meta":"McGraw-Hill · 1987 · Classic textbook"},{"title":"MIL-HDBK-217F: Reliability Prediction of Electronic Equipment","url":"https://www.sre.org/pubs/Mil-Hdbk-217F.pdf","meta":"US DoD Handbook · 1991"}]'
+        data-links='[{"title":"Software Reliability: Measurement, Prediction, Application – Musa, Iannino & Okumoto","url":"https://www.worldcat.org/title/software-reliability-measurement-prediction-application/oclc/15222859","meta":"McGraw-Hill · 1987"},{"title":"MIL-HDBK-217F: Reliability Prediction of Electronic Equipment","url":"https://snebulos.mit.edu/projects/reference/MIL-STD/MIL-HDBK-217F-Notice2.pdf","meta":"US DoD · 1991"}]'
         data-terms='[{"symbol":"λ(t)","desc":"Failure rate at time t — the metric output, typically expressed as failures per hour"},{"symbol":"Nf(t)","desc":"Number of failures observed — count of system failures during the observed operating period"},{"symbol":"Top(t)","desc":"Total operating time — how long the system was running during the measurement window (in hours)"}]'>
         <div class="card-header">
           <div class="card-name">Observed Failure Rate</div>
@@ -513,7 +513,7 @@
         data-subchar="Availability"
         data-provenance="Classical reliability concept from 1950s system analysis. Standardized in MIL-STD-721C (1981), IEEE Std 762-2006, and ITU-T telecom standards. The direct basis for SLA percentages like 99.9% uptime."
         data-example="An e-commerce site was monitored for 8,760 hours (one full year). It was down for 43.8 hours total (planned maintenance plus incidents). A = (8760 - 43.8) / 8760 × 100% = 99.5%. The SLA requires 99.9% (three nines), which allows only 8.76 hours of downtime. The team must cut downtime by roughly 35 hours — they eliminate a weekly 1-hour maintenance window first."
-        data-links='[{"title":"Security Quality Measurement for AIS Based on ISO/IEC 25010 – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"ITS Journal · 2017"},{"title":"IEEE Std 762-2006: Electric Generating Unit Reliability, Availability and Productivity","url":"https://ieeexplore.ieee.org/document/4118337","meta":"IEEE Standard · 2006"}]'
+        data-links='[{"title":"Security quality measurement for academic information system based on ISO/IEC 25010 – Saptarini, Rochimah & Yuhana","url":"https://doi.org/10.12962/j23546026.y2017i2.2310","meta":"ITS Journal of Engineering · 2017"},{"title":"IEEE Std 762-2006: Standard Definitions for Use in Reporting Electric Generating Unit Reliability","url":"https://ieeexplore.ieee.org/document/4118337","meta":"IEEE · 2006"}]'
         data-terms='[{"symbol":"A","desc":"Availability — the final metric, expressed as a percentage (e.g. 99.9%)"},{"symbol":"Tup","desc":"Uptime — total time the system was operational and accessible to users"},{"symbol":"Ttotal","desc":"Total time — the full measurement window (e.g. one month = 720 hours)"},{"symbol":"Tup / Ttotal","desc":"Ratio of uptime to total time; multiplying by 100 converts to a percentage"}]'>
         <div class="card-header">
           <div class="card-name">System Availability</div>
@@ -533,7 +533,7 @@
         data-subchar="Availability"
         data-provenance="Developed in the 1950s for military hardware reliability. Codified in MIL-HDBK-217, IEEE Std 762-2006, and IEC 61508 (1998). Widely used in hardware and software service planning to schedule maintenance windows."
         data-example="A database server had 4 failures over 6 months (4,380 hours): at hours 300, 1200, 2800, and 4100. MTBF = [(1200-300) + (2800-1200) + (4100-2800)] / 3 = [900+1600+1300]/3 = 1,267 hours (about 52 days between failures). The team's target is MTBF over 2,000 hours — memory leak investigation is scheduled."
-        data-links='[{"title":"IEEE Std 762-2006: Definitions for Reliability and Availability","url":"https://ieeexplore.ieee.org/document/4118337","meta":"IEEE Standard · 2006"},{"title":"IEC 61508: Functional Safety of Electrical/Electronic Systems","url":"https://webstore.iec.ch/publication/5515","meta":"IEC Standard · 1998/2010"}]'
+        data-links='[{"title":"IEEE Std 762-2006: Standard Definitions for Use in Reporting Electric Generating Unit Reliability","url":"https://ieeexplore.ieee.org/document/4118337","meta":"IEEE · 2006"},{"title":"IEC 61508: Functional Safety of Electrical/Electronic/Programmable Electronic Safety-related Systems","url":"https://webstore.iec.ch/publication/5515","meta":"IEC · 2010"}]'
         data-terms='[{"symbol":"MTBF","desc":"Mean Time Between Failures — the average time interval between successive failures"},{"symbol":"tf,i","desc":"Time of the i-th failure — the timestamp when the i-th failure occurred"},{"symbol":"tf,i+1","desc":"Time of the next (i+1-th) failure — allows computing the gap between consecutive failures"},{"symbol":"Σ(tf,i+1 − tf,i)","desc":"Sum of all inter-failure intervals — the total time across all gaps between failures"},{"symbol":"n−1","desc":"Number of inter-failure intervals — one less than the number of failures (n failures produce n−1 gaps)"}]'>
         <div class="card-header">
           <div class="card-name">Mean Time Between Failures (MTBF)</div>
@@ -560,7 +560,7 @@
         data-subchar="Fault Tolerance"
         data-provenance="Hybrid combining 1970s–80s fault injection testing concepts (Avizienis, Laprie) with IEEE Std 1044-2009 software anomaly classification. Formalized as a percentage metric for ISO/IEC 25010."
         data-example="A microservices system undergoes chaos engineering: 50 faults are injected (database timeouts, network partitions, CPU spikes). The system handles 42 of them gracefully without user-visible errors. FTC = 42/50 × 100% = 84%. All 8 failures trace to the cache layer — a circuit breaker is added, bringing FTC to 96% in the next test cycle."
-        data-links='[{"title":"Fundamental Concepts of Dependability – Avizienis, Laprie et al.","url":"https://www.cs.umd.edu/~mml/858V-S05/avizienis04.pdf","meta":"IEEE Transactions on Dependable Computing · 2004"},{"title":"Security Quality Measurement Framework for AIS – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"ITS Journal · 2016/2017"}]'
+        data-links='[{"title":"Basic Concepts and Taxonomy of Dependable and Secure Computing – Avizienis et al.","url":"https://doi.org/10.1109/TDSC.2004.2","meta":"IEEE Trans. Dependable and Secure Computing · 2004"},{"title":"Security quality measurement for academic information system – Saptarini, Rochimah & Yuhana","url":"https://doi.org/10.12962/j23546026.y2017i2.2310","meta":"ITS Journal · 2017"}]'
         data-terms='[{"symbol":"FTC","desc":"Fault Tolerance Coverage — the final metric as a percentage of injected faults handled gracefully"},{"symbol":"Ntolerated","desc":"Number of tolerated faults — faults the system handled without user-visible errors or data loss"},{"symbol":"Ninjected","desc":"Number of injected faults — total faults deliberately introduced during fault injection / chaos testing"}]'>
         <div class="card-header">
           <div class="card-name">Fault Tolerance Coverage</div>
@@ -580,7 +580,7 @@
         data-subchar="Fault Tolerance"
         data-provenance="Newly proposed by Saptarini et al. (2016) to quantify graceful degradation under fault conditions. Applied in academic information system case study. Uses a weighted average of severity scores across degraded functions."
         data-example="During a database outage, 3 functions degrade: Search (severity 0.9, weight 0.5 — most used), Login (severity 0.3, weight 0.3 — read-only fallback works), Reports (severity 0.6, weight 0.2). DSS = (0.9×0.5 + 0.3×0.3 + 0.6×0.2) / 1.0 = 0.66. The team set 0.7 as the on-call alert threshold — this incident stays just below it, so no escalation is triggered."
-        data-links='[{"title":"Security Quality Measurement Framework for AIS – Saptarini, Rochimah & Yuhana","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"ITS Journal · 2016"},{"title":"ISO/IEC 25010:2011 Systems and Software Quality Requirements","url":"https://www.iso.org/standard/35733.html","meta":"ISO Standard · 2011"}]'
+        data-links='[{"title":"Security quality measurement for academic information system – Saptarini, Rochimah & Yuhana","url":"https://doi.org/10.12962/j23546026.y2017i2.2310","meta":"ITS Journal · 2016"},{"title":"ISO/IEC 25010:2011 Systems and software engineering — Quality model","url":"https://www.iso.org/standard/35733.html","meta":"ISO/IEC · 2011"}]'
         data-terms='[{"symbol":"DSS","desc":"Degradation Severity Score — weighted average severity of all degraded functions during a fault event (0 = no degradation, 1 = total failure)"},{"symbol":"wi","desc":"Weight of function i — reflects the relative importance or usage frequency of the i-th system function"},{"symbol":"di","desc":"Degradation level of function i — severity score for how badly function i is impaired (0 = normal, 1 = completely unavailable)"},{"symbol":"Σwi","desc":"Sum of all weights — the denominator that normalises the result to a 0–1 scale regardless of how many functions are measured"}]'>
         <div class="card-header">
           <div class="card-name">Degradation Severity Score</div>
@@ -607,7 +607,7 @@
         data-subchar="Recoverability"
         data-provenance="Classical maintainability metric from 1950s military logistics. Standardized in MIL-STD-721C (1981) and IEEE Std 762-2006. Adopted by ITIL for IT service management. A core DORA metric in modern DevOps measurement."
         data-example="A cloud service had 4 incidents last quarter. Recovery times were 15, 45, 20, and 60 minutes. MTTR = (15+45+20+60) / 4 = 35 minutes. The SRE team targets MTTR under 20 minutes. The 60-minute incident required a manual rollback — it is analyzed and an automated rollback pipeline is built, cutting that scenario to under 8 minutes."
-        data-links='[{"title":"Site Reliability Engineering – Beyer, Jones, Petoff & Murphy (Google)","url":"https://sre.google/sre-book/table-of-contents/","meta":"O Reilly · 2016 · Free online"},{"title":"IEEE Std 762-2006: Reliability and Availability Definitions","url":"https://ieeexplore.ieee.org/document/4118337","meta":"IEEE Standard · 2006"}]'
+        data-links='[{"title":"Site Reliability Engineering – Beyer, Jones, Petoff & Murphy","url":"https://sre.google/sre-book/table-of-contents/","meta":"O Reilly · 2016"},{"title":"IEEE Std 762-2006: Standard Definitions for Use in Reporting Electric Generating Unit Reliability","url":"https://ieeexplore.ieee.org/document/4118337","meta":"IEEE · 2006"}]'
         data-terms='[{"symbol":"MTTR","desc":"Mean Time To Recover — the average duration from failure detection to full service restoration"},{"symbol":"tr,i","desc":"Recovery time of incident i — the timestamp when service was fully restored after the i-th failure"},{"symbol":"tf,i","desc":"Failure time of incident i — the timestamp when the i-th failure was detected"},{"symbol":"tr,i − tf,i","desc":"Recovery duration for incident i — the elapsed time from failure to full recovery"},{"symbol":"n","desc":"Number of incidents — the total count of failures measured in the period"}]'>
         <div class="card-header">
           <div class="card-name">Mean Time To Recover (MTTR)</div>
@@ -625,9 +625,9 @@
       <div class="card" data-origin="hybrid" data-category="reliability" data-name="Recovery Success Rate"
         data-formula="RSR = Nsuccess / Nattempts × 100%"
         data-subchar="Recoverability"
-        data-provenance="Hybrid combining classical reliability success rate metrics with ISO/IEC 25045 (SQuaRE dependability benchmarking). Adapted specifically for measuring whether recovery procedures complete successfully within defined RTO bounds."
+        data-provenance="Hybrid combining classical reliability success rate metrics with ISO/IEC 25010 recoverability sub-characteristic. Adapted specifically for measuring whether recovery procedures complete successfully within defined RTO bounds."
         data-example="A hospital information system tested its disaster recovery procedure 12 times over the year (a mix of scheduled drills and real incidents). 10 recoveries completed fully within the RTO; 2 required manual intervention outside the procedure. RSR = 10/12 × 100% = 83.3%. The team targets 95% before next compliance audit — the 2 failures are post-incident reviewed and runbooks updated."
-        data-links='[{"title":"ISO/IEC 25045: Evaluation Module for Recoverability (SQuaRE)","url":"https://www.iso.org/standard/35747.html","meta":"ISO/IEC Standard"},{"title":"Security Quality Measurement Framework – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2016/2017"}]'
+        data-links='[{"title":"ISO/IEC 25010:2011 Systems and software engineering — Quality model","url":"https://www.iso.org/standard/35733.html","meta":"ISO/IEC · 2011"},{"title":"Security quality measurement for academic information system – Saptarini, Rochimah & Yuhana","url":"https://doi.org/10.12962/j23546026.y2017i2.2310","meta":"ITS Journal · 2016/2017"}]'
         data-terms='[{"symbol":"RSR","desc":"Recovery Success Rate — percentage of recovery attempts that completed fully within the defined procedure and RTO"},{"symbol":"Nsuccess","desc":"Number of successful recoveries — recoveries completed within the defined RTO without manual out-of-procedure intervention"},{"symbol":"Nattempts","desc":"Total recovery attempts — all recovery attempts made (both drills and real incidents) during the measurement period"}]'>
         <div class="card-header">
           <div class="card-name">Recovery Success Rate</div>
@@ -636,7 +636,7 @@
         <div class="formula">RSR = Nsuccess / Nattempts × 100%</div>
         <div class="card-tags">
           <span class="tag">Recoverability</span>
-          <span class="tag">ISO/IEC 25045</span>
+          <span class="tag">ISO/IEC 25010</span>
         </div>
         <button class="details-btn">View details &amp; example →</button>
       </div>
@@ -646,7 +646,7 @@
         data-subchar="Recoverability"
         data-provenance="Classical disaster recovery metric from 1990s business continuity planning. Formalized in NIST SP 800-34 (2002) and ISO 22301 (2012). Defines the maximum acceptable data loss window — the gap between the last backup and when failure occurred."
         data-example="A financial database takes hourly backups. A failure occurs at 14:47. The last successful backup completed at 14:00. RPOactual = 47 minutes. The business requirement is RPO under 30 minutes. The team upgrades to 15-minute incremental backups using WAL shipping, which brings RPOactual to under 15 minutes in subsequent tests."
-        data-links='[{"title":"NIST SP 800-34 Rev.1: Contingency Planning Guide for Federal Information Systems","url":"https://csrc.nist.gov/publications/detail/sp/800-34/rev-1/final","meta":"NIST · 2010"},{"title":"ISO 22301: Business Continuity Management Systems","url":"https://www.iso.org/standard/75106.html","meta":"ISO Standard · 2019"}]'
+        data-links='[{"title":"NIST SP 800-34 Rev.1: Contingency Planning Guide for Federal Information Systems","url":"https://csrc.nist.gov/publications/detail/sp/800-34/rev-1/final","meta":"NIST · 2010"},{"title":"ISO 22301:2019 Security and resilience — Business continuity management systems","url":"https://www.iso.org/standard/75106.html","meta":"ISO · 2019"}]'
         data-terms='[{"symbol":"RPOactual","desc":"Actual Recovery Point Objective — the real data loss window measured after a failure event"},{"symbol":"tf","desc":"Failure time — the timestamp when the failure or data loss event occurred"},{"symbol":"tlast_backup","desc":"Last backup time — the timestamp of the most recently completed successful backup before the failure"},{"symbol":"tf − tlast_backup","desc":"Data loss window — the gap between the last safe backup and the failure; data created in this window is lost"}]'>
         <div class="card-header">
           <div class="card-name">Recovery Point Objective (RPO)</div>
@@ -680,16 +680,16 @@
       <div class="card" data-origin="hybrid" data-category="security" data-name="Data Protection Coverage"
         data-formula="DPC = Nprotected / Ntotal × 100%"
         data-subchar="Confidentiality"
-        data-provenance="Derived from ISO/IEC 25023 measurement concepts and practically formulated by Saptarini et al. (2017, 2016). Related to NIST SP 800-53 control families and ISO 27001 asset protection requirements."
+        data-provenance="Derived from ISO/IEC 25010 measurement concepts and practically formulated by Saptarini et al. (2017, 2016). Related to NIST SP 800-53 control families and ISO 27001 asset protection requirements."
         data-example="An HR system holds 5 categories of sensitive data: employee records, payroll, performance reviews, medical records, and recruitment files. Four have encryption and access controls in place; medical records are still pending classification. DPC = 4/5 × 100% = 80%. A GDPR audit is in 6 weeks — medical records are classified and encrypted that sprint."
-        data-links='[{"title":"NIST SP 800-53 Rev.5: Security and Privacy Controls for Information Systems","url":"https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final","meta":"NIST · 2020"},{"title":"Security Quality Measurement for AIS – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2017"}]'
+        data-links='[{"title":"NIST SP 800-53 Rev.5: Security and Privacy Controls for Information Systems","url":"https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final","meta":"NIST · 2020"},{"title":"Security quality measurement for academic information system – Saptarini, Rochimah & Yuhana","url":"https://doi.org/10.12962/j23546026.y2017i2.2310","meta":"ITS Journal · 2017"}]'
         data-terms='[{"symbol":"DPC","desc":"Data Protection Coverage — percentage of data assets that have appropriate protection controls applied"},{"symbol":"Nprotected","desc":"Number of protected data assets — assets with applicable controls in place (encryption, access restrictions, classification)"},{"symbol":"Ntotal","desc":"Total number of data assets — all data asset categories or items in scope for the assessment"}]'>
         <div class="card-header">
           <div class="card-name">Data Protection Coverage</div>
           <span class="origin-tag hybrid">Hybrid</span>
         </div>
         <div class="formula">DPC = Nprotected / Ntotal × 100%</div>
-        <div class="card-tags"><span class="tag">Confidentiality</span><span class="tag">ISO/IEC 25023</span></div>
+        <div class="card-tags"><span class="tag">Confidentiality</span><span class="tag">NIST SP 800-53</span></div>
         <button class="details-btn">View details &amp; example →</button>
       </div>
 
@@ -698,7 +698,7 @@
         data-subchar="Confidentiality"
         data-provenance="Based on 1990s–2000s security incident metrics, guided by NIST SP 800-55 (2008) performance measurement and ISO/IEC 27004. Adapted for the confidentiality sub-characteristic."
         data-example="A corporate portal logged 14 unauthorized access attempts in Q3 (90 days). UAIR = 14/90 = 0.156 incidents per day. In Q2 there were only 6, giving 0.067/day — a 2.3x increase. The security team investigates and discovers a credential-stuffing campaign targeting the login API. Rate limiting and CAPTCHA are added, dropping Q4 to 3 incidents."
-        data-links='[{"title":"NIST SP 800-55 Rev.1: Performance Measurement Guide for Information Security","url":"https://csrc.nist.gov/publications/detail/sp/800-55/rev-1/final","meta":"NIST · 2008"},{"title":"ISO/IEC 27004: Information Security Management Measurement","url":"https://www.iso.org/standard/64120.html","meta":"ISO Standard · 2016"}]'
+        data-links='[{"title":"NIST SP 800-55 Rev.1: Performance Measurement Guide for Information Security","url":"https://csrc.nist.gov/publications/detail/sp/800-55/rev-1/final","meta":"NIST · 2008"},{"title":"ISO/IEC 27004:2016 Information security management — Monitoring, measurement, analysis and evaluation","url":"https://www.iso.org/standard/64120.html","meta":"ISO/IEC · 2016"}]'
         data-terms='[{"symbol":"UAIR","desc":"Unauthorized Access Incident Rate — frequency of unauthorized access incidents per unit of time"},{"symbol":"Nunauthorized","desc":"Number of unauthorized access incidents — confirmed incidents where access was gained or attempted without authorisation"},{"symbol":"Tperiod","desc":"Measurement period — the time window over which incidents were counted (e.g. 30 days, 1 quarter); result is incidents per time unit"}]'>
         <div class="card-header">
           <div class="card-name">Unauthorized Access Incident Rate</div>
@@ -714,7 +714,7 @@
         data-subchar="Confidentiality"
         data-provenance="Newly proposed by Saptarini et al. (2017, 2016) to measure how effectively access control mechanisms block unauthorized attempts. Validated in academic information system security assessment."
         data-example="A university portal recorded 340 unauthorized access attempts in one month (wrong roles, expired tokens, blocked IPs). The WAF and RBAC blocked 325; 15 slipped through a misconfigured API endpoint that skipped token validation. ACER = 325/340 × 100% = 95.6%. The endpoint is patched within the day, and ACER reaches 100% the following month."
-        data-links='[{"title":"Security Quality Measurement Framework – Saptarini, Rochimah & Yuhana","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2017"},{"title":"NIST SP 800-162: Guide to Attribute-Based Access Control (ABAC)","url":"https://csrc.nist.gov/publications/detail/sp/800-162/final","meta":"NIST · 2014"}]'
+        data-links='[{"title":"Security quality measurement for academic information system – Saptarini, Rochimah & Yuhana","url":"https://doi.org/10.12962/j23546026.y2017i2.2310","meta":"ITS Journal · 2017"},{"title":"NIST SP 800-162: Guide to Attribute Based Access Control (ABAC) Definition and Considerations","url":"https://csrc.nist.gov/publications/detail/sp/800-162/final","meta":"NIST · 2014"}]'
         data-terms='[{"symbol":"ACER","desc":"Access Control Enforcement Rate — percentage of unauthorized attempts that were successfully blocked by access controls"},{"symbol":"Nblocked","desc":"Number of blocked attempts — unauthorized access attempts that were detected and denied by the system"},{"symbol":"Nunauthorized_attempts","desc":"Total unauthorized attempts — all attempts to access the system without valid authorisation, whether blocked or not"}]'>
         <div class="card-header">
           <div class="card-name">Access Control Enforcement Rate</div>
@@ -737,7 +737,7 @@
         data-subchar="Integrity"
         data-provenance="Newly proposed by Calabrese et al. (2017) using the GQM (Goal-Question-Metric) methodology. Provides a weighted composite score across multiple integrity control dimensions. Case study reported example value: 0.75."
         data-example="An ERP system is evaluated on 3 integrity controls: checksums (Pc=0.9, w=0.4), database constraints (Pc=0.7, w=0.4), and audit trails (Pc=0.5, w=0.2). DIPS = (0.9×0.4 + 0.7×0.4 + 0.5×0.2) / 1.0 = 0.74. This falls below the team's 0.8 threshold. Audit trail coverage is identified as the weakest link and prioritized in the next sprint."
-        data-links='[{"title":"Assistant for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"CCIS Vol. 747 · Springer · 2017"},{"title":"The Goal Question Metric Approach – Basili, Caldiera & Rombach","url":"https://www.cs.umd.edu/~basili/publications/technical/T79.pdf","meta":"Encyclopedia of Software Engineering · 1994"}]'
+        data-links='[{"title":"An Assistant Tool for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"CCIS Vol. 747 · Springer · 2017"},{"title":"The Goal Question Metric Approach – Basili, Caldiera & Rombach","url":"https://www.cs.umd.edu/~basili/publications/technical/T79.pdf","meta":"Encyclopedia of Software Engineering · 1994"}]'
         data-terms='[{"symbol":"DIPS","desc":"Data Integrity Protection Score — weighted composite score (0–1) reflecting how well integrity is protected across all controls"},{"symbol":"Pci","desc":"Protection completeness of control i — how fully integrity control i is implemented (0 = not implemented, 1 = fully implemented)"},{"symbol":"wi","desc":"Weight of control i — relative importance of this control in the overall integrity posture (weights sum to 1)"},{"symbol":"Σwi","desc":"Sum of all weights — normalisation denominator ensuring the result stays on a 0–1 scale"}]'>
         <div class="card-header">
           <div class="card-name">Data Integrity Protection Score</div>
@@ -753,7 +753,7 @@
         data-subchar="Integrity"
         data-provenance="Newly proposed by Calabrese et al. (2017). Normalized per million transactions so the metric remains comparable across systems of very different sizes and transaction volumes."
         data-example="A banking system processed 8.5 million transactions last month. Integrity checks flagged 17 violations caused by a race condition in the transfer module. IVR = 17 / 8,500,000 × 1,000,000 = 2.0 violations per million transactions. The team's target is below 1. The race condition is fixed, and IVR drops to 0 the following month."
-        data-links='[{"title":"Assistant for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"CCIS Vol. 747 · Springer · 2017"},{"title":"ISO/IEC 25010:2011 Systems and Software Quality Requirements","url":"https://www.iso.org/standard/35733.html","meta":"ISO Standard · 2011"}]'
+        data-links='[{"title":"An Assistant Tool for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"CCIS Vol. 747 · Springer · 2017"},{"title":"ISO/IEC 25010:2011 Systems and software engineering — Quality model","url":"https://www.iso.org/standard/35733.html","meta":"ISO/IEC · 2011"}]'
         data-terms='[{"symbol":"IVR","desc":"Integrity Violation Rate — frequency of integrity breaches per million transactions; normalised for cross-system comparability"},{"symbol":"Nviolations","desc":"Number of integrity violations — confirmed cases where data was corrupted, tampered with, or inconsistently modified"},{"symbol":"Ntransactions","desc":"Total transactions processed — the denominator representing all operations processed in the measurement period"},{"symbol":"× 10⁶","desc":"Scaling factor — multiplies the ratio by one million so the result is expressed per million transactions (avoids tiny decimal values)"}]'>
         <div class="card-header">
           <div class="card-name">Integrity Violation Rate</div>
@@ -769,7 +769,7 @@
         data-subchar="Integrity"
         data-provenance="Classical software testing coverage concept (1970s–80s) adapted by Calabrese et al. (2017) to measure how comprehensively integrity verification mechanisms are applied across data objects in a system."
         data-example="A content management system has 120 data objects (tables, files, API endpoints). Integrity checks (hash validation, format constraints, foreign key rules) are applied to 96 of them; 24 legacy reporting tables lack any validation. ICC = 96/120 × 100% = 80%. The 24 legacy objects are added to the backlog and addressed over two sprints."
-        data-links='[{"title":"Assistant for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"CCIS Vol. 747 · Springer · 2017"},{"title":"ISO/IEC 25023: Measurement of System and Software Product Quality","url":"https://www.iso.org/standard/35747.html","meta":"ISO Standard · 2016"}]'
+        data-links='[{"title":"An Assistant Tool for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"CCIS Vol. 747 · Springer · 2017"},{"title":"ISO/IEC 25010:2011 Systems and software engineering — Quality model","url":"https://www.iso.org/standard/35733.html","meta":"ISO/IEC · 2011"}]'
         data-terms='[{"symbol":"ICC","desc":"Integrity Check Coverage — percentage of data objects that have at least one integrity verification mechanism applied"},{"symbol":"Nwith_checks","desc":"Number of objects with integrity checks — data objects (tables, files, endpoints) that have validation rules, hash checks, or constraints"},{"symbol":"Ntotal_objects","desc":"Total number of data objects — all data objects in scope for the integrity assessment"}]'>
         <div class="card-header">
           <div class="card-name">Integrity Check Coverage</div>
@@ -793,11 +793,11 @@
  data-name="Digital Signature Coverage"
  data-formula="DSC = Nsigned / Ncritical_transactions × 100%"
  data-subchar="Non-repudiation"
- data-provenance="Based on ISO/IEC 25023 measurement concepts and ISO/IEC 13888 non-repudiation standard (1997–2009). Adapted as a coverage metric by Saptarini et al. (2016) and Calabrese et al. (2017)."
+ data-provenance="Based on ISO/IEC 13888 non-repudiation standard (1997–2009) and ISO/IEC 25010 measurement concepts. Adapted as a coverage metric by Saptarini et al. (2016) and Calabrese et al. (2017)."
  data-example="A procurement system processes 200 purchase orders per month classified as critical transactions. 174 are digitally signed by the approving manager through the portal; 26 were approved via legacy email. DSC = 174/200 × 100% = 87%. Policy requires 100%. The legacy email approval route is closed and all approvers are migrated to the signing portal within two weeks."
  data-links='[
-   {"title":"ISO/IEC 13888-1: Non-repudiation — General Model","url":"https://www.iso.org/standard/55301.html","meta":"ISO Standard · 2009"},
-   {"title":"Security Quality Measurement Framework – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2017"}
+   {"title":"ISO/IEC 13888-1:2009 Information technology — Security techniques — Non-repudiation — Part 1: General","url":"https://www.iso.org/standard/42054.html","meta":"ISO/IEC · 2009"},
+   {"title":"Security quality measurement for academic information system – Saptarini, Rochimah & Yuhana","url":"https://doi.org/10.12962/j23546026.y2017i2.2310","meta":"ITS Journal · 2017"}
  ]'
  data-terms='[
    {"symbol":"DSC","desc":"Digital Signature Coverage — percentage of critical transactions that are digitally signed"},
@@ -835,8 +835,8 @@
  data-provenance="Proposed in modern security quality measurement research to assess the operational reliability of non-repudiation infrastructure through continuous monitoring of signature verification outcomes."
  data-example="A CI/CD pipeline verifies 500 artifact signatures per week. Last week 487 succeeded and 13 failed — 10 due to expired certificates on old build artifacts and 3 due to a misconfigured key store. SVSR = 487/500 × 100% = 97.4%. After renewing certificates and fixing the key store configuration, the following week's SVSR reaches 100%."
  data-links='[
-   {"title":"Assistant for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"Springer · 2017"},
-   {"title":"Security Quality Measurement Framework – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2017"}
+   {"title":"An Assistant Tool for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"CCIS Vol. 747 · Springer · 2017"},
+   {"title":"Security quality measurement for academic information system – Saptarini, Rochimah & Yuhana","url":"https://doi.org/10.12962/j23546026.y2017i2.2310","meta":"ITS Journal · 2017"}
  ]'
  data-terms='[
    {"symbol":"SVSR","desc":"Signature Verification Success Rate — percentage of verification attempts that succeed"},
@@ -874,7 +874,7 @@
  data-example="A healthcare portal records 10,000 user actions per day. Audit logs captured 9,650 actions; 350 from a batch-processing module were missed due to a logging configuration gap. ATC = 9,650/10,000 × 100% = 96.5%. After enabling logging in the batch module, ATC improves to 99.97% within the following week."
  data-links='[
    {"title":"NIST SP 800-92: Guide to Computer Security Log Management","url":"https://csrc.nist.gov/publications/detail/sp/800-92/final","meta":"NIST · 2006"},
-   {"title":"ISO/IEC 27001: Information Security Management Systems","url":"https://www.iso.org/standard/54534.html","meta":"ISO Standard · 2013/2022"}
+   {"title":"ISO/IEC 27001:2013 Information security management systems — Requirements","url":"https://www.iso.org/standard/54534.html","meta":"ISO/IEC · 2013"}
  ]'
  data-terms='[
    {"symbol":"ATC","desc":"Audit Trail Completeness — percentage of system actions that are recorded in the audit log"},
@@ -914,7 +914,8 @@
         data-subchar="Accountability"
         data-provenance="Classical audit logging concept adapted from NIST SP 800-92 log management guidance and ISO/IEC 27001 logging requirements. Formalized by Calabrese et al. (2017) and Saptarini et al. (2016) for ISO/IEC 25010."
         data-example="A SaaS platform defines 8 action categories that must be logged: login/logout, data export, admin changes, payment events, API calls, file uploads, config changes, and user management. 6 of 8 are fully covered; API calls and file uploads log only errors. ALC = 6/8 × 100% = 75%. Both categories are upgraded to full event logging before the SOC 2 audit."
-        data-links='[{"title":"NIST SP 800-92: Guide to Computer Security Log Management","url":"https://csrc.nist.gov/publications/detail/sp/800-92/final","meta":"NIST · 2006"},{"title":"ISO/IEC 27001: Information Security Management Systems","url":"https://www.iso.org/standard/54534.html","meta":"ISO Standard · 2022"}]'>
+        data-links='[{"title":"NIST SP 800-92: Guide to Computer Security Log Management","url":"https://csrc.nist.gov/publications/detail/sp/800-92/final","meta":"NIST · 2006"},{"title":"ISO/IEC 27001:2013 Information security management systems — Requirements","url":"https://www.iso.org/standard/54534.html","meta":"ISO/IEC · 2013"}]'
+        data-terms='[{"symbol":"ALC","desc":"Audit Log Coverage — percentage of action categories that have complete audit logging"},{"symbol":"Nlogged","desc":"Number of action categories with complete audit logging"},{"symbol":"Ntotal_actions","desc":"Total number of action categories that should be logged"}]'>
         <div class="card-header">
           <div class="card-name">Audit Log Coverage</div>
           <span class="origin-tag hybrid">Hybrid</span>
@@ -929,7 +930,8 @@
         data-subchar="Accountability"
         data-provenance="Newly proposed composite metric by Calabrese et al. (2017) and Saptarini et al. (2016). Three components: Protection (P) — log access controls; Tamper detection (T) — hash chaining or WORM storage; Centralization (C) — all logs flow to a SIEM."
         data-example="A fintech company scores its log infrastructure: Protection P=0.8 (logs are access-controlled but shared service accounts exist), Tamper detection T=0.6 (SHA-256 hashing is partial — only the prod database), Centralization C=1.0 (all services send to Splunk). Weights: w1=0.4, w2=0.4, w3=0.2. LIS = 0.32+0.24+0.20 = 0.76. Target is 0.9 — tamper detection is the priority gap and is extended to all services."
-        data-links='[{"title":"Assistant for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"Springer · 2017"},{"title":"NIST SP 800-92: Guide to Computer Security Log Management","url":"https://csrc.nist.gov/publications/detail/sp/800-92/final","meta":"NIST · 2006"}]'>
+        data-links='[{"title":"An Assistant Tool for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"CCIS Vol. 747 · Springer · 2017"},{"title":"NIST SP 800-92: Guide to Computer Security Log Management","url":"https://csrc.nist.gov/publications/detail/sp/800-92/final","meta":"NIST · 2006"}]'
+        data-terms='[{"symbol":"LIS","desc":"Log Integrity Score — weighted composite score (0–1) reflecting log protection, tamper detection, and centralization"},{"symbol":"P","desc":"Protection score (0–1) — how well logs are protected from unauthorized access"},{"symbol":"T","desc":"Tamper detection score (0–1) — effectiveness of tamper detection mechanisms (hashing, WORM, etc.)"},{"symbol":"C","desc":"Centralization score (0–1) — completeness of log centralization to SIEM or log aggregation platform"},{"symbol":"w1, w2, w3","desc":"Weights for Protection, Tamper detection, and Centralization (typically sum to 1)"}]'>
         <div class="card-header">
           <div class="card-name">Log Integrity Score</div>
           <span class="origin-tag new">New</span>
@@ -944,7 +946,8 @@
         data-subchar="Accountability"
         data-provenance="Newly proposed by Calabrese et al. (2017) and Saptarini et al. (2016). Measures the average time between an action occurring and an operator identifying the responsible actor — critical for incident response and forensic investigations."
         data-example="After a suspicious data export, the security team investigates 5 actions. Time from action to actor identification: 4 min, 12 min, 3 min, 25 min, and 6 min. AL = (4+12+3+25+6)/5 = 10 minutes. The 25-minute case involved a shared service account with minimal logging — individual named accounts are enforced as an immediate corrective action, bringing average AL to 5 minutes."
-        data-links='[{"title":"Assistant for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"Springer · 2017"},{"title":"NIST SP 800-86: Guide to Integrating Forensic Techniques into Incident Response","url":"https://csrc.nist.gov/publications/detail/sp/800-86/final","meta":"NIST · 2006"}]'>
+        data-links='[{"title":"An Assistant Tool for Evaluation of Software Quality Characteristics – Calabrese et al.","url":"https://doi.org/10.1007/978-3-319-75214-3_16","meta":"CCIS Vol. 747 · Springer · 2017"},{"title":"NIST SP 800-86: Guide to Integrating Forensic Techniques into Incident Response","url":"https://csrc.nist.gov/publications/detail/sp/800-86/final","meta":"NIST · 2006"}]'
+        data-terms='[{"symbol":"AL","desc":"Attribution Latency — average time from action to actor identification in forensic investigation"},{"symbol":"tattr,i","desc":"Time when actor i was identified in the investigation"},{"symbol":"taction,i","desc":"Time when action i occurred in the system"},{"symbol":"n","desc":"Number of actions investigated"}]'>
         <div class="card-header">
           <div class="card-name">Attribution Latency</div>
           <span class="origin-tag new">New</span>
@@ -966,7 +969,8 @@
         data-subchar="Authenticity"
         data-provenance="Based on authentication requirements from NIST SP 800-63 Digital Identity Guidelines (2003+) and ISO/IEC 27001 access control requirements. Adapted as a coverage metric for ISO/IEC 25010 by Saptarini et al. (2016)."
         data-example="A microservices application has 18 API endpoints. 15 require a valid JWT token; 3 internal health-check and metrics endpoints are unauthenticated. AC = 15/18 × 100% = 83.3%. A penetration test reveals the metrics endpoint leaks version info useful to attackers. It is placed behind network policy, bringing AC to 100% for all externally reachable interfaces."
-        data-links='[{"title":"NIST SP 800-63B: Digital Identity Guidelines — Authentication and Lifecycle","url":"https://pages.nist.gov/800-63-3/sp800-63b.html","meta":"NIST · 2017 (updated 2020)"},{"title":"Security Quality Measurement Framework – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2016/2017"}]'>
+        data-links='[{"title":"NIST SP 800-63-3: Digital Identity Guidelines","url":"https://pages.nist.gov/800-63-3/","meta":"NIST · 2017 (updated 2020)"},{"title":"Security quality measurement for academic information system – Saptarini, Rochimah & Yuhana","url":"https://doi.org/10.12962/j23546026.y2017i2.2310","meta":"ITS Journal · 2016/2017"}]'
+        data-terms='[{"symbol":"AC","desc":"Authentication Coverage — percentage of interfaces that require authentication"},{"symbol":"Nauthenticated","desc":"Number of interfaces that require valid authentication"},{"symbol":"Ntotal_interfaces","desc":"Total number of system interfaces (APIs, endpoints, entry points)"}]'>
         <div class="card-header">
           <div class="card-name">Authentication Coverage</div>
           <span class="origin-tag hybrid">Hybrid</span>
@@ -981,7 +985,8 @@
         data-subchar="Authenticity"
         data-provenance="Classical success rate metric from system monitoring practices (1980s–90s), guided by NIST authentication monitoring recommendations. Widely used in monitoring dashboards before being formalized under ISO/IEC 25010."
         data-example="A corporate VPN recorded 12,400 login attempts last month. 11,780 succeeded; 620 failed (wrong passwords, expired accounts, blocked IPs). ASR = 11,780/12,400 × 100% = 95%. One Tuesday morning ASR dropped suddenly to 82% for 3 hours — correlated with a phishing campaign targeting employee credentials. The anomaly triggered an automated lockout on affected accounts."
-        data-links='[{"title":"NIST SP 800-63B: Digital Identity Guidelines — Authentication","url":"https://pages.nist.gov/800-63-3/sp800-63b.html","meta":"NIST · 2017"},{"title":"Security Quality Measurement Framework – Saptarini et al.","url":"https://doi.org/10.12962/J23546026.Y2017I2.2310","meta":"2016/2017"}]'>
+        data-links='[{"title":"NIST SP 800-63-3: Digital Identity Guidelines","url":"https://pages.nist.gov/800-63-3/","meta":"NIST · 2017"},{"title":"Security quality measurement for academic information system – Saptarini, Rochimah & Yuhana","url":"https://doi.org/10.12962/j23546026.y2017i2.2310","meta":"ITS Journal · 2016/2017"}]'
+        data-terms='[{"symbol":"ASR","desc":"Authentication Success Rate — percentage of authentication attempts that succeed"},{"symbol":"Nsuccessful","desc":"Number of successful authentication attempts"},{"symbol":"Nattempts","desc":"Total authentication attempts (successful + failed)"}]'>
         <div class="card-header">
           <div class="card-name">Authentication Success Rate</div>
           <span class="origin-tag classical">Classical</span>
@@ -996,7 +1001,8 @@
         data-subchar="Authenticity"
         data-provenance="Multi-factor authentication concept from NIST SP 800-63 (2000s). Formulated as an adoption rate metric for ISO/IEC 25010 by Saptarini et al. (2016). Increasingly mandated by PCI-DSS and SOC 2 compliance frameworks."
         data-example="A 350-person company rolls out MFA. After month 1: 280 users enrolled (TOTP app or hardware key), 70 have not. MFAadoption = 280/350 × 100% = 80%. The 70 remaining users are mostly in operations. A firm deadline is announced: after two weeks, users without MFA will be locked out. By the deadline, 347 of 350 are enrolled — 3 are on extended leave and enrolled upon return."
-        data-links='[{"title":"NIST SP 800-63B: Digital Identity Guidelines — Authentication and Lifecycle","url":"https://pages.nist.gov/800-63-3/sp800-63b.html","meta":"NIST · 2017"},{"title":"PCI DSS v4.0: Requirement 8 — Identify Users and Authenticate Access to System Components","url":"https://www.pcisecuritystandards.org/document_library/","meta":"PCI SSC · 2022"}]'>
+        data-links='[{"title":"NIST SP 800-63-3: Digital Identity Guidelines","url":"https://pages.nist.gov/800-63-3/","meta":"NIST · 2017"},{"title":"PCI DSS v4.0: Payment Card Industry Data Security Standard","url":"https://www.pcisecuritystandards.org/document_library","meta":"PCI SSC · 2022"}]'
+        data-terms='[{"symbol":"MFAadoption","desc":"MFA Adoption Rate — percentage of users enrolled in multi-factor authentication"},{"symbol":"NMFA_users","desc":"Number of users with MFA enabled"},{"symbol":"Ntotal_users","desc":"Total number of user accounts in the system"}]'>
         <div class="card-header">
           <div class="card-name">MFA Adoption Rate</div>
           <span class="origin-tag hybrid">Hybrid</span>
@@ -1016,9 +1022,10 @@
       <div class="card" data-origin="new" data-category="security" data-name="Acute Vulnerability Score"
         data-formula="AVS = Σ(wi · vi)"
         data-subchar="Resistance"
-        data-provenance="Newly proposed in Performance Efficiency Evaluation based on ISO/IEC 25010:2011 (2017). Severity weights are derived from CVSS (Common Vulnerability Scoring System). Validated against ISO 1061-1998 criteria."
+        data-provenance="Newly proposed for ISO/IEC 25010:2011 performance efficiency and resistance evaluation (2017). Severity weights are derived from CVSS (Common Vulnerability Scoring System). Validated against ISO/IEC 9126-1:2001 criteria."
         data-example="A static analysis scan of a Node.js app finds 4 vulnerabilities: SQL injection (CVSS 9.8), XSS (CVSS 6.1), outdated dependency with a known CVE (CVSS 5.5), and a weak cipher in transit (CVSS 3.1). AVS = 9.8+6.1+5.5+3.1 = 24.5. The team's release gate is AVS under 10. After fixing the SQL injection and XSS, AVS drops to 8.6 — the build is cleared for release."
-        data-links='[{"title":"CVSS v3.1 Specification Document – FIRST","url":"https://www.first.org/cvss/specification-document","meta":"FIRST · 2019"},{"title":"Performance Efficiency Evaluation Based on ISO/IEC 25010:2011 – WTDQS","url":"https://sol.sbc.org.br/index.php/wtdqs/article/view/12576","meta":"Workshop de Teses em Qualidade de Software · 2017"}]'>
+        data-links='[{"title":"CVSS v3.1 Specification Document – FIRST","url":"https://www.first.org/cvss/v3.1/specification-document","meta":"FIRST · 2019"},{"title":"Avaliação da eficiência de desempenho com base na ISO/IEC 25010:2011 – Souza & Fontana","url":"https://sol.sbc.org.br/index.php/wtdqs/article/view/12576","meta":"Workshop de Teses em Qualidade de Software · 2017"}]'
+        data-terms='[{"symbol":"AVS","desc":"Acute Vulnerability Score — sum of weighted severity scores for all detected vulnerabilities"},{"symbol":"wi","desc":"Weight of vulnerability i — typically 1.0 (or CVSS base score can be used directly)"},{"symbol":"vi","desc":"Severity score of vulnerability i — CVSS base score (0–10 scale)"}]'>
         <div class="card-header">
           <div class="card-name">Acute Vulnerability Score</div>
           <span class="origin-tag new">New</span>
@@ -1031,9 +1038,10 @@
       <div class="card" data-origin="new" data-category="security" data-name="Dependency Vulnerability Score"
         data-formula="DVS = Σⱼ Σᵢ (wi · dj,i)"
         data-subchar="Resistance"
-        data-provenance="Newly proposed in Performance Efficiency Evaluation (2017) to address supply chain security risk from third-party components. Empirically validated for discriminative power and the ability to track improvements over time."
+        data-provenance="Newly proposed for ISO/IEC 25010:2011 resistance evaluation (2017) to address supply chain security risk from third-party components. Empirically validated for discriminative power and the ability to track improvements over time."
         data-example="A Python service has 3 vulnerable dependencies: requests (two CVEs: CVSS 7.5 and 4.3), cryptography (one CVE: CVSS 8.1), and urllib3 (one CVE: CVSS 5.3). DVS = (7.5+4.3) + 8.1 + 5.3 = 25.2. The CI/CD pipeline is configured to fail builds when DVS exceeds 20. After updating all three packages to their patched versions, DVS drops to 0 and the build passes."
-        data-links='[{"title":"OWASP Dependency-Check: Identifying Project Dependencies with Known Vulnerabilities","url":"https://owasp.org/www-project-dependency-check/","meta":"OWASP · Open Source Tool"},{"title":"Performance Efficiency Evaluation Based on ISO/IEC 25010:2011 – WTDQS","url":"https://sol.sbc.org.br/index.php/wtdqs/article/view/12576","meta":"Workshop de Teses em Qualidade de Software · 2017"}]'>
+        data-links='[{"title":"OWASP Dependency-Check","url":"https://owasp.org/www-project-dependency-check/","meta":"OWASP · Open Source Tool"},{"title":"Avaliação da eficiência de desempenho com base na ISO/IEC 25010:2011 – Souza & Fontana","url":"https://sol.sbc.org.br/index.php/wtdqs/article/view/12576","meta":"Workshop de Teses em Qualidade de Software · 2017"}]'
+        data-terms='[{"symbol":"DVS","desc":"Dependency Vulnerability Score — sum of all CVSS scores across all vulnerable dependencies"},{"symbol":"j","desc":"Index for each dependency"},{"symbol":"i","desc":"Index for each vulnerability in dependency j"},{"symbol":"wi","desc":"Weight (typically 1.0 or CVSS score used directly)"},{"symbol":"dj,i","desc":"CVSS severity score of vulnerability i in dependency j"}]'>
         <div class="card-header">
           <div class="card-name">Dependency Vulnerability Score</div>
           <span class="origin-tag new">New</span>
@@ -1046,9 +1054,10 @@
       <div class="card" data-origin="new" data-category="security" data-name="Dependency Freshness Score"
         data-formula="DFS = Σfj / m"
         data-subchar="Resistance"
-        data-provenance="Newly proposed in Performance Efficiency Evaluation (2017). Serves as a proxy metric for security exposure through outdated dependencies. fj is a freshness score per dependency (0–1). Validated in large-scale software projects."
+        data-provenance="Newly proposed for ISO/IEC 25010:2011 resistance evaluation (2017). Serves as a proxy metric for security exposure through outdated dependencies. fj is a freshness score per dependency (0–1). Validated in large-scale software projects."
         data-example="A Java service has 5 key dependencies. Freshness scores based on versions behind latest stable: Spring Boot (latest, fj=1.0), Hibernate (2 versions behind, fj=0.6), Gson (current, fj=1.0), Log4j (3 versions behind, fj=0.4), Jackson (current, fj=1.0). DFS = (1.0+0.6+1.0+0.4+1.0)/5 = 0.80. Target is DFS at least 0.90 — Hibernate and Log4j are updated that week, bringing DFS to 1.0."
-        data-links='[{"title":"Performance Efficiency Evaluation Based on ISO/IEC 25010:2011 – WTDQS","url":"https://sol.sbc.org.br/index.php/wtdqs/article/view/12576","meta":"Workshop de Teses em Qualidade de Software · 2017"},{"title":"Renovate: Automated Dependency Updates","url":"https://docs.renovatebot.com/","meta":"Mend · Open Source Tool"}]'>
+        data-links='[{"title":"Avaliação da eficiência de desempenho com base na ISO/IEC 25010:2011 – Souza & Fontana","url":"https://sol.sbc.org.br/index.php/wtdqs/article/view/12576","meta":"Workshop de Teses em Qualidade de Software · 2017"},{"title":"Renovate: Automated Dependency Updates","url":"https://docs.renovatebot.com/","meta":"Mend · Open Source Tool"}]'
+        data-terms='[{"symbol":"DFS","desc":"Dependency Freshness Score — average freshness across all dependencies (0–1 scale)"},{"symbol":"fj","desc":"Freshness score of dependency j — 1.0 for latest, decreasing based on versions behind"},{"symbol":"m","desc":"Total number of dependencies measured"}]'>
         <div class="card-header">
           <div class="card-name">Dependency Freshness Score</div>
           <span class="origin-tag new">New</span>
@@ -1061,9 +1070,10 @@
       <div class="card" data-origin="new" data-category="security" data-name="Composite Resistance Score"
         data-formula="CRS = α·(1−AVS/AVSmax) + β·(1−DVS/DVSmax) + γ·DFS"
         data-subchar="Resistance"
-        data-provenance="Newly proposed in Performance Efficiency Evaluation (2017). Aggregates three vulnerability dimensions — source code (AVS), dependencies (DVS), and freshness (DFS) — into a single 0–1 score for executive-level security dashboards. Weights α, β, γ are set per organizational risk appetite."
+        data-provenance="Newly proposed for ISO/IEC 25010:2011 resistance evaluation (2017). Aggregates three vulnerability dimensions — source code (AVS), dependencies (DVS), and freshness (DFS) — into a single 0–1 score for executive-level security dashboards. Weights α, β, γ are set per organizational risk appetite."
         data-example="Team sets α=0.4, β=0.4, γ=0.2. AVSmax=50, DVSmax=50. Before patching: AVS=24.5, DVS=12, DFS=0.80. CRS = 0.4×(1−24.5/50) + 0.4×(1−12/50) + 0.2×0.80 = 0.204+0.304+0.160 = 0.668. After the sprint where SQLi, XSS, and all dependency CVEs are fixed (AVS=8.6, DVS=0, DFS=0.90): CRS = 0.4×0.828 + 0.4×1.0 + 0.2×0.90 = 0.331+0.400+0.180 = 0.911. The dashboard goes from amber to green."
-        data-links='[{"title":"Performance Efficiency Evaluation Based on ISO/IEC 25010:2011 – WTDQS","url":"https://sol.sbc.org.br/index.php/wtdqs/article/view/12576","meta":"Workshop de Teses em Qualidade de Software · 2017"},{"title":"ISO/IEC 25010:2011 Systems and Software Quality Requirements and Evaluation","url":"https://www.iso.org/standard/35733.html","meta":"ISO Standard · 2011"}]'>
+        data-links='[{"title":"Avaliação da eficiência de desempenho com base na ISO/IEC 25010:2011 – Souza & Fontana","url":"https://sol.sbc.org.br/index.php/wtdqs/article/view/12576","meta":"Workshop de Teses em Qualidade de Software · 2017"},{"title":"ISO/IEC 25010:2011 Systems and software engineering — Quality model","url":"https://www.iso.org/standard/35733.html","meta":"ISO/IEC · 2011"}]'
+        data-terms='[{"symbol":"CRS","desc":"Composite Resistance Score — weighted aggregate of AVS, DVS, and DFS (0–1 scale, higher is better)"},{"symbol":"α, β, γ","desc":"Weights for AVS, DVS, and DFS components (typically sum to 1)"},{"symbol":"AVS","desc":"Acute Vulnerability Score — sum of source code vulnerability severities"},{"symbol":"DVS","desc":"Dependency Vulnerability Score — sum of dependency vulnerability severities"},{"symbol":"DFS","desc":"Dependency Freshness Score — average dependency freshness (0–1)"},{"symbol":"AVSmax, DVSmax","desc":"Maximum expected values for normalization"}]'>
         <div class="card-header">
           <div class="card-name">Composite Resistance Score</div>
           <span class="origin-tag new">New</span>
